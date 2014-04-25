@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    <body>
+        <style>
+        svg path {
+            stroke: "red";
+            stroke-width: 20;
+        }
+            
+        </style>
+        <script type="text/javascript">
+            
+            //Width and height
+            var w = 300;
+            var h = 300;
+
+            var data = [ "#003399", "#0099CC", "#0099FF", "#0000FF"];
+            var pi = Math.PI;
+            var ad = 2*pi/data.length  // angular displacement
+            var rd = w/8;
+
+            var mkarc = function(d, i) {
+                return d3.svg.arc()
+                    .innerRadius(rd*3)
+                    .outerRadius(rd*4)
+                    .startAngle(i*ad)
+                    .endAngle((i+1)*ad);
+            }
+            
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            svg.selectAll("path")
+                .data(data)
+              .enter()
+                .append("path")
+                .attr("d", mkarc)
+                .attr("transform", "translate(" + w/2 +"," + w/2 + ")");
+
+        </script>
+    </body>
+</html>

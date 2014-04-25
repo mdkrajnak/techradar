@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    <body>
+        <p>Duopixel</p>
+        <p>http://jsfiddle.net/D5k8x/</p>
+        <p>http://stackoverflow.com/questions/12717652/making-an-arc-in-d3-js</p>
+        <script type="text/javascript">
+    
+        var width = 300;
+        var vis = d3.select("body").append("svg")
+
+        var data = ["red", "blue", "green"];
+        var section = Math.PI;
+
+        var arc = d3.svg.arc()
+            .innerRadius(50)
+            .outerRadius(70)
+            .startAngle(0)
+            .endAngle(section)
+
+        vis.append("path")
+            .attr("d", arc)
+            .attr("fill", "green")
+            .attr("transform", "translate(200,200)")
+        </script>
+    </body>
+</html>

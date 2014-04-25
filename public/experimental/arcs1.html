@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            
+            //Width and height
+            var w = 300;
+            var h = 300;
+
+            var data = [ "red", "blue", "green"];
+            var pi = Math.PI;
+            var ad = 2*pi/data.length  // angular displacement
+
+            var outerRadius = w / 2;
+            var innerRadius = w / 4;
+            
+            var arc1 = d3.svg.arc()
+                .innerRadius(innerRadius)
+                .outerRadius(outerRadius)
+                .startAngle(0)
+                .endAngle(ad);
+            
+            var arc2 = d3.svg.arc()
+                .innerRadius(innerRadius)
+                .outerRadius(outerRadius)
+                .startAngle(ad)
+                .endAngle(2*ad);
+            
+            var arc3 = d3.svg.arc()
+                .innerRadius(innerRadius)
+                .outerRadius(outerRadius)
+                .startAngle(2*ad)
+                .endAngle(3*ad);
+
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+            
+            svg.append("path")
+                .attr("d", arc1)
+                .attr("fill", "red")
+                .attr("transform", "translate(" + w/2 +"," + w/2 + ")");
+            
+            svg.append("path")
+                .attr("d", arc2)
+                .attr("fill", "green")
+                .attr("transform", "translate(" + w/2 +"," + w/2 + ")");
+            
+            svg.append("path")
+                .attr("d", arc3)
+                .attr("fill", "blue")
+                .attr("transform", "translate(" + w/2 +"," + w/2 + ")");
+            
+        </script>
+    </body>
+</html>

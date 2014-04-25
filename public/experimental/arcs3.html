@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- <script type="text/javascript" src="lib/d3-3.4.4/d3.min.js"></script> -->
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    <body>
+        <style>
+            
+        .sector {
+            stroke: white;
+            stroke-width: 2;
+        }
+            
+        .hold {
+            fill-opacity: 0.2;
+        }
+            
+        .assess {
+            fill-opacity: 0.25;
+        }
+            
+        .trial {
+            fill-opacity: 0.3;
+        }
+            
+        .adopt {
+            fill-opacity: 0.35;
+        }
+            
+        </style>
+        <script type="text/javascript">
+            
+            //Width and height
+            var w = 800;
+            var h = 500;
+            var dia = Math.min(w, h);
+
+            var sectors = [ "#003399", "#0099CC", "#0099FF", "#0000FF"];
+            var pi = Math.PI;
+            var ad = 2*pi/sectors.length  // angular displacement
+            var rd = dia/8;
+            
+            // Function for creating arc generators for a specific band.
+            var mkarcfn = function(pos) {
+                return function(d, i) {
+                    return d3.svg.arc()
+                        .innerRadius(rd*(pos-1))
+                        .outerRadius(rd*pos)
+                        .startAngle(i*ad)
+                        .endAngle((i+1)*ad)(d,i);
+                }
+            }
+                        
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+            
+            // Add group to hold the radar paths.
+            var rdr = svg.append("g")
+                .attr("transform", "translate(" + w/2 +"," + h/2 + ")");
+            
+            // Make entry selection for all sectors.
+            var paths = rdr.selectAll("path")
+                .data(sectors).enter();
+            
+            // Append the outer most sectors for hold state.
+            paths.append("path")
+                .attr("class", "sector hold")
+                .attr("d", mkarcfn(4))
+                .attr("fill", function(d) { return d; });
+
+            // Assess
+            paths.append("path")
+                .attr("class", "sector assess")
+                .attr("d", mkarcfn(3))
+                .attr("fill", function(d) { return d; });
+            
+            // Trial
+            paths.append("path")
+                .attr("class", "sector trial")
+                .attr("d", mkarcfn(2))
+                .attr("fill", function(d) { return d; });
+            
+            // Adopt, using an alternate form for creating the arc.
+            paths.append("path")
+                .attr("class", "sector adopt")
+                .attr("d", d3.svg.arc()
+                    .innerRadius(0)
+                    .outerRadius(rd)
+                    .startAngle(function(d,i) { return i*ad; })
+                    .endAngle(function(d,i) { return (i+1)*ad; }))
+                .attr("fill", function(d) { return d; });
+            
+        </script>
+    </body>
+</html>
