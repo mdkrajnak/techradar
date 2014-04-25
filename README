@@ -1,14 +1,8 @@
 Make your own Technology Radar.
 
-Inspired by the ThoughtWorks Tech Radar: http://www.thoughtworks.com/radar/.
+Forked from Brett Dargan's tech radar code at: https://github.com/bdargan/techradar and ported to D3.js.
 
-While I love the TW Radar, it is produced to be of a general nature for all their clients.
-
-For me I want to tweak it to the specific circumstances of one's company or clients.
-
-Especially to create flexible types of Radars: Quadrants and sectors.
-
-Pretty basic functionality, uses json and Protovis to generate SVG.
+Currently works best with Chrome.
 
 Data is provided in a radial format.
 
