@@ -74,9 +74,9 @@ var radar_data = [
         "items" : [
             {"name":"Git", "pc":{"r":130,"t":15},"movement":"c", "blipSize":140},
             {"name":"Perforce", "pc":{"r":130,"t":30},"movement":"c", "blipSize":140},
-            {"name":"Typsafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
+            {"name":"Typesafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
             {"name":"NoSQL", "pc":{"r":170,"t":60},"movement":"c"},
-            {"name":"mongoDB", "pc":{"r":170,"t":80},"movement":"c"},
+            {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
             {"name":"Cross mobile platforms", "pc":{"r":280,"t":70},"movement":"c"},
             {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
             {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"},
