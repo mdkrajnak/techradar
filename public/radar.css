@@ -1,0 +1,50 @@
+#radar {
+    align-content: center;
+}
+
+#legend {
+    float : right;
+    align-content: left;
+}
+
+text {
+    font-family: sans-serif;
+    font-size: 12px;
+    fill: white;
+}
+
+path {
+    stroke: white;
+    stroke-width: 2;
+}
+
+path.hold {
+    fill: "#003399";
+    fill-opacity: 0.2;
+}
+
+path.assess {
+    fill: "#0099CC";
+    fill-opacity: 0.25;
+}
+
+path.trial {
+    fill: "#0099FF";
+    fill-opacity: 0.3;
+}
+
+path.adopt {
+    fill: "#0000FF";
+    fill-opacity: 0.35;
+}
+
+.dot circle {
+    opacity: 0.7;
+    fill: midnightblue;
+}
+
+.dot text {
+    stroke: white;
+    text-anchor: middle;
+    alignment-baseline: central;
+}

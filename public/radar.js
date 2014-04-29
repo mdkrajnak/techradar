@@ -5,26 +5,27 @@
 // Turn off "do not define functions in loop"
 /*jslint -W083*/
 
-/*global $, console, d3, radar_data, polar_to_raster */
-
-function p2c(pt) {  
-  //radians to degrees, requires the t*pi/180
-  var x = pt.r * Math.cos((pt.t*Math.PI/180));
-  var y = pt.r * Math.sin((pt.t*Math.PI/180));
-  return {x: x, y: y};
-}
+/*global $, console, d3, radar_data */
 
 function init(h,w) {
     
+    // Initialize the title as specified in radarData.js
     $('#title').text(document.title);
-    var dia = Math.min(w, h);   // Radar diameter
-
-    var sectors = [ "#003399", "#0099CC", "#0099FF", "#0000FF"];
+    
+    //  Initialize variables used to size and position the graphics.
+    var dia = Math.min(w, h);       // Radar diameter
+    var radius = dia/2;
+    var rd = dia/8;                 // Radial displacement of one band (e.g. "Adopt").
     var pi = Math.PI;
-    var ad = 2*pi/sectors.length;   // angular displacement
-    var rd = dia/8;                 // radial displacement of one band.
+    var ad = 2*pi/radar_data.length;    // Angular displacement of one sector.
+    
+    // Create a d3 scale, we assume the input data uses radius values of 0..400 so the 
+    // domain is [-400, 400].
+    var rscale = d3.scale.linear()
+        .domain([-400, 400])
+        .range([-radius, radius]);
 
-    // Function for creating arc generators for a specific band.
+    // Function for creating arc generators for a specific band, pos 0 is the innermost "Adopt" band.
     var mkarcfn = function(pos) {
         return function(d, i) {
             return d3.svg.arc()
@@ -33,6 +34,14 @@ function init(h,w) {
                 .startAngle(i*ad)
                 .endAngle((i+1)*ad)(d,i);
         };
+    };
+    
+    // Function to convert r, theta coordinates to viewport coordinates (minus translation).
+    var p2c = function(pt) {  
+      //radians to degrees, requires the t*pi/180
+      var x = pt.r * Math.cos((pt.t*Math.PI/180));
+      var y = pt.r * Math.sin((pt.t*Math.PI/180));
+      return {x: rscale(x), y: -rscale(y)};
     };
 
     //Create SVG element
@@ -45,11 +54,11 @@ function init(h,w) {
     var rdr = svg.append("g")
         .attr("transform", "translate(" + w/2 +"," + h/2 + ")");
 
-    // Make entry selection for all sectors.
+    // Make an entry selection for all sectors.
     var paths = rdr.selectAll("path")
-        .data(sectors).enter();
+        .data(radar_data).enter();
 
-    // Append the outer most sectors for hold state.
+    // Append the outer most band for hold state.
     paths.append("path")
         .attr("class", "hold")
         .attr("d", mkarcfn(4));
@@ -64,7 +73,7 @@ function init(h,w) {
         .attr("class", "trial")
         .attr("d", mkarcfn(2));
 
-    // Adopt, using an alternate form for creating the arc.
+    // Adopt, using an alternate form for creating the arc for didatic purposes.
     paths.append("path")
         .attr("class", "adopt")
         .attr("d", d3.svg.arc()
@@ -76,14 +85,18 @@ function init(h,w) {
     // Now draw the points.
     var ptnum = 0;
     
+    // Note, can we move the transform to the parent <svg> element?
     var entries = svg.append("g")
         .attr("transform", "translate(" + w/2 +"," + h/2 + ")");
     
+    // Make an entry selection for all points.
     var points = entries.selectAll("g")
         .data(radar_data)
         .enter()
         .append("g");
     
+    // Create one <g> for each point.  
+    // A point group consists of its symbol and text.
     var point = points.selectAll("g")
         .data(function(d) { ptnum = 0; return d.items; })
         .enter()
@@ -93,7 +106,7 @@ function init(h,w) {
     point.append("circle")
         .attr("cy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel
         .attr("cx", function (d) { return p2c(d.pc).x; } ) // translate x value
-        .attr("r", 10); // radius of circle
+        .attr("r", rscale(12)); // radius of circle
     
     point.append("text")
         .attr("dy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel

@@ -32,7 +32,7 @@ var radar_arcs = [
 //     t = angle of the point from origin ("angular coordinate")
 //     - 0 degrees is due east
 //
-// Coarse-grained quadrants
+// Coarse-grained sectors
 // - Techniques: elements of a software development process, such as experience design; and ways of structuring software, such micro-services.
 // - Tools: components, such as databases, software development tools, such as versions control systems; or more generic categories of tools, such as the notion of polyglot persistance.
 // - Platforms: things that we build software on top of: mobile technologies like Android, virtual platforms like the JVM, or generic kinds of platforms like hybrid clouds
@@ -79,8 +79,7 @@ var radar_data = [
             {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
             {"name":"Cross mobile platforms", "pc":{"r":280,"t":70},"movement":"c"},
             {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
-            {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"},
-            {"name":"Julia", "pc":{"r":370,"t":30},"movement":"c"}
+            {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"}
         ]
     },
     { "quadrant": "Platforms & Components",
@@ -97,8 +96,7 @@ var radar_data = [
             {"name":"Android", "pc":{"r":210,"t":240},"movement":"c"},
             {"name":"Software Defined Machines", "pc":{"r":230,"t":205},"movement":"c"},
             {"name":"Node.js", "pc":{"r":310,"t":235},"movement":"c"},
-            {"name":"CoAP", "pc":{"r":350,"t":200},"movement":"c"},
-            {"name":"MQTT", "pc":{"r":350,"t":210},"movement":"c"}
+            {"name":"IoT Protocols (CoAP, MQTT)", "pc":{"r":350,"t":200},"movement":"c"}
         ]
     },
     { "quadrant": "Languages & Frameworks",
