@@ -43,6 +43,17 @@ function init(h,w) {
       var y = pt.r * Math.sin((pt.t*Math.PI/180));
       return {x: rscale(x), y: -rscale(y)};
     };
+    
+    var dragmove = function(d) {
+        if (d.x == undefined) d.x = 0;
+        if (d.y == undefined) d.y = 0;
+            d.x += d3.event.dx;
+            d.y += d3.event.dy;
+            d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+    };
+    
+    var drag = d3.behavior.drag()
+        .on("drag", dragmove);
 
     //Create SVG element
     var svg = d3.select("#radar")
@@ -101,7 +112,10 @@ function init(h,w) {
         .data(function(d) { ptnum = 0; return d.items; })
         .enter()
         .append("g")
-        .attr("class", "dot");
+        .attr("class", "dot")
+        .attr("x", 0)
+        .attr("y", 0)
+        .call(drag);
     
     point.append("circle")
         .attr("cy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel
@@ -111,5 +125,7 @@ function init(h,w) {
     point.append("text")
         .attr("dy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel
         .attr("dx", function (d) { return p2c(d.pc).x; } ) // translate x value
-        .text(function(d) { return ++ptnum; } );// radius of circle
+        .text(function(d) { return name2abbr(d.name); } ) // radius of circle
+        .append("title")
+        .text(function(d) { return d.name; });
 }

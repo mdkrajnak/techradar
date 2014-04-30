@@ -4,10 +4,10 @@ document.title = "ARC Technology Radar";
 
 //This is the concentic circles that want on your radar
 var radar_arcs = [
-                   {'r':100,'name':'Adopt'}
-                  ,{'r':200,'name':'Trial'}
-                  ,{'r':300,'name':'Assess'}
-                  ,{'r':400,'name':'Hold'}
+                   {'r':100,'name':'Adopt'},
+                   {'r':200,'name':'Trial'},
+                   {'r':300,'name':'Assess'},
+                   {'r':400,'name':'Hold'}
                  // ,{'r':500,'name':'Possible Extra if you want it'}
                  ];
 
@@ -60,9 +60,9 @@ var radar_data = [
         "top" : 18,
         "color" : "#8FA227",
         "items" : [
-            {"name":"Agile metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
-            {"name":"Continuous integration", "pc":{"r":110,"t":120},"movement":"c"},
-            {"name":"Automated V&V tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
+            {"name":"Agile Metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
+            {"name":"Continuous Integration", "pc":{"r":110,"t":120},"movement":"c"},
+            {"name":"Automated V&V Tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
             {"name":"Fastworks", "pc":{"r":160,"t":150},"movement":"c", "blipSize":140},
             {"name":"Behavior Driven Development", "pc":{"r":210,"t":140},"movement":"c"}
         ]
@@ -77,7 +77,7 @@ var radar_data = [
             {"name":"Typesafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
             {"name":"NoSQL", "pc":{"r":170,"t":60},"movement":"c"},
             {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
-            {"name":"Cross mobile platforms", "pc":{"r":280,"t":70},"movement":"c"},
+            {"name":"Cross Mobile Platforms", "pc":{"r":280,"t":70},"movement":"c"},
             {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
             {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"}
         ]
@@ -105,12 +105,12 @@ var radar_data = [
         "top" :   (h/2 + 18),
         "items" : [
             {"name":"HTML 5", "pc":{"r":110,"t":300},"movement":"c"},
-            {"name":"Javascript", "pc":{"r":110,"t":315},"movement":"c"},
+            {"name":"Java Script", "pc":{"r":110,"t":315},"movement":"c"},
             {"name":"Lua", "pc":{"r":190,"t":320},"movement":"c"},
             {"name":"Groovy", "pc":{"r":190,"t":340},"movement":"c"},
             {"name":"C#", "pc":{"r":250,"t":345},"movement":"c"},
             {"name":"D3.js", "pc":{"r":260,"t":300},"movement":"c"},
-            {"name":"Angular.js", "pc":{"r":260,"t":300},"movement":"c"},
+            {"name":"Angular.js", "pc":{"r":260,"t":290},"movement":"c"},
             {"name":"Scala", "pc":{"r":290,"t":310},"movement":"c"}
         ]
     }

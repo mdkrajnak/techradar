@@ -1,4 +1,12 @@
 
+function name2abbr(s) {
+    var parts = s.replace(/\(.*\)/, '').split(/\s+/);
+    if (parts.length === 0) return "Unk";
+    if (parts.length === 1) return parts[0].substr(0,3);
+    if (parts.length === 2) return parts[0].substr(0,1) + parts[1].substr(0,2);
+    return parts[0].substr(0,1) + parts[1].substr(0,1) + parts[2].substr(0,1);
+}
+
 function polar_to_cartesian(r,t) {  
   //radians to degrees, requires the t*pi/180
   var x = r * Math.cos((t*Math.PI/180));
