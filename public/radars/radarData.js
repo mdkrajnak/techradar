@@ -1,15 +1,5 @@
-//This is the title for your window tab, and your Radar
-document.title = "ARC Technology Radar";
-
-
-//This is the concentic circles that want on your radar
-var radar_arcs = [
-                   {'r':100,'name':'Adopt'},
-                   {'r':200,'name':'Trial'},
-                   {'r':300,'name':'Assess'},
-                   {'r':400,'name':'Hold'}
-                 // ,{'r':500,'name':'Possible Extra if you want it'}
-                 ];
+// radar data module
+/* global radar */
 
 //This is your raw data
 //
@@ -45,73 +35,76 @@ var radar_arcs = [
 // - Hold: things that are getting attention in the industry, but not ready for use; sometimes they are not mature enough yet, sometimes they are irredeemably flawed
 //      Note: there's no "avoid" ring, but throw things in the hold ring that people shouldn't use.
 
-var h = 1160;
-var w = 1200;
-
 // Valid t coordinate values by quaderant:
 //   Techniques:     90-180
 //   Platforms:     180-270
 //   Tools:           0- 90
 //   Languages:     270-360
 
-var radar_data = [
-    { "quadrant": "Techniques",
-        "left" : 45,
-        "top" : 18,
-        "color" : "#8FA227",
-        "items" : [
-            {"name":"Agile Metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
-            {"name":"Continuous Integration", "pc":{"r":110,"t":120},"movement":"c"},
-            {"name":"Automated V&V Tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
-            {"name":"Fastworks", "pc":{"r":160,"t":150},"movement":"c", "blipSize":140},
-            {"name":"Behavior Driven Development", "pc":{"r":210,"t":140},"movement":"c"}
-        ]
-    },
-    { "quadrant": "Tools",
-        "left": w-200+30,
-        "top" : 18,
-        "color" : "#587486",
-        "items" : [
-            {"name":"Git", "pc":{"r":130,"t":15},"movement":"c", "blipSize":140},
-            {"name":"Perforce", "pc":{"r":130,"t":30},"movement":"c", "blipSize":140},
-            {"name":"Typesafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
-            {"name":"NoSQL", "pc":{"r":170,"t":60},"movement":"c"},
-            {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
-            {"name":"Cross Mobile Platforms", "pc":{"r":280,"t":70},"movement":"c"},
-            {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
-            {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"}
-        ]
-    },
-    { "quadrant": "Platforms & Components",
-        "left" :45,
-         "top" : (h/2 + 18),
-        "color" : "#DC6F1D",
-        "items" : [
-            {"name":"QT", "pc":{"r":100,"t":190},"movement":"c"},
-            {"name":"Predix Apps (OSGi, Play)", "pc":{"r":110,"t":225},"movement":"c", "blipSize":140},
-            {"name":"Predix Net (TLS, DDS)", "pc":{"r":110,"t":245},"movement":"c", "blipSize":140},
-            {"name":"Linux", "pc":{"r":130,"t":200},"movement":"c"},
-            {"name":"Single Page Web Applications", "pc":{"r":140,"t":255},"movement":"c"},
-            {"name":"iOS", "pc":{"r":210,"t":230},"movement":"c"},
-            {"name":"Android", "pc":{"r":210,"t":240},"movement":"c"},
-            {"name":"Software Defined Machines", "pc":{"r":230,"t":205},"movement":"c"},
-            {"name":"Node.js", "pc":{"r":310,"t":235},"movement":"c"},
-            {"name":"IoT Protocols (CoAP, MQTT)", "pc":{"r":350,"t":200},"movement":"c"}
-        ]
-    },
-    { "quadrant": "Languages & Frameworks",
-        "color" : "#B70062",
-        "left"  : (w-200+30),
-        "top" :   (h/2 + 18),
-        "items" : [
-            {"name":"HTML 5", "pc":{"r":110,"t":300},"movement":"c"},
-            {"name":"Java Script", "pc":{"r":110,"t":315},"movement":"c"},
-            {"name":"Lua", "pc":{"r":190,"t":320},"movement":"c"},
-            {"name":"Groovy", "pc":{"r":190,"t":340},"movement":"c"},
-            {"name":"C#", "pc":{"r":250,"t":345},"movement":"c"},
-            {"name":"D3.js", "pc":{"r":260,"t":300},"movement":"c"},
-            {"name":"Angular.js", "pc":{"r":260,"t":290},"movement":"c"},
-            {"name":"Scala", "pc":{"r":290,"t":310},"movement":"c"}
-        ]
-    }
-];
+radar.data = (function() {
+    
+    //This is the title for your window tab, and your Radar
+    var title = "ARC Technology Radar";
+
+    //This is the concentic circles that want on your radar (currently not used).
+    var radar_arcs = [
+                       {'r':100,'name':'Adopt'},
+                       {'r':200,'name':'Trial'},
+                       {'r':300,'name':'Assess'},
+                       {'r':400,'name':'Hold'}
+                     // ,{'r':500,'name':'Possible Extra if you want it'}
+                     ];
+
+    var radar_data = [
+        { "quadrant": "Techniques",
+            "items" : [
+                {"name":"Agile Metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
+                {"name":"Continuous Integration", "pc":{"r":110,"t":120},"movement":"c"},
+                {"name":"Automated V&V Tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
+                {"name":"Fastworks", "pc":{"r":160,"t":150},"movement":"c", "blipSize":140},
+                {"name":"Behavior Driven Development", "pc":{"r":210,"t":140},"movement":"c"}
+            ]
+        },
+        { "quadrant": "Tools",
+            "items" : [
+                {"name":"Git", "pc":{"r":130,"t":15},"movement":"c", "blipSize":140},
+                {"name":"Perforce", "pc":{"r":130,"t":30},"movement":"c", "blipSize":140},
+                {"name":"Typesafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
+                {"name":"NoSQL", "pc":{"r":170,"t":60},"movement":"c"},
+                {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
+                {"name":"Cross Mobile Platforms", "pc":{"r":280,"t":70},"movement":"c"},
+                {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
+                {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"}
+            ]
+        },
+        { "quadrant": "Platforms & Components",
+            "items" : [
+                {"name":"QT", "pc":{"r":100,"t":190},"movement":"c"},
+                {"name":"Predix Apps (OSGi, Play)", "pc":{"r":110,"t":225},"movement":"c", "blipSize":140},
+                {"name":"Predix Net (TLS, DDS)", "pc":{"r":110,"t":245},"movement":"c", "blipSize":140},
+                {"name":"Linux", "pc":{"r":130,"t":200},"movement":"c"},
+                {"name":"Single Page Web Applications", "pc":{"r":140,"t":255},"movement":"c"},
+                {"name":"iOS", "pc":{"r":210,"t":230},"movement":"c"},
+                {"name":"Android", "pc":{"r":210,"t":240},"movement":"c"},
+                {"name":"Software Defined Machines", "pc":{"r":230,"t":205},"movement":"c"},
+                {"name":"Node.js", "pc":{"r":310,"t":235},"movement":"c"},
+                {"name":"IoT Protocols (CoAP, MQTT)", "pc":{"r":350,"t":200},"movement":"c"}
+            ]
+        },
+        { "quadrant": "Languages & Frameworks",
+            "items" : [
+                {"name":"HTML 5", "pc":{"r":110,"t":300},"movement":"c"},
+                {"name":"Java Script", "pc":{"r":110,"t":315},"movement":"c"},
+                {"name":"Type Script", "pc":{"r":110,"t":330},"movement":"c"},
+                {"name":"Lua", "pc":{"r":190,"t":320},"movement":"c"},
+                {"name":"Groovy", "pc":{"r":190,"t":340},"movement":"c"},
+                {"name":"C#", "pc":{"r":250,"t":345},"movement":"c"},
+                {"name":"D3.js", "pc":{"r":260,"t":300},"movement":"c"},
+                {"name":"Angular.js", "pc":{"r":260,"t":290},"movement":"c"},
+                {"name":"Scala", "pc":{"r":290,"t":310},"movement":"c"}
+            ]
+        }
+    ];
+    
+    return { title: title, sectors: radar_data };
+}());

@@ -8,12 +8,16 @@
         
         <link rel="stylesheet" type="text/css" href="radar.css">
         
-        <script type="text/javascript" charset="utf-8" src="radars/radarData.js"></script>
-         <script type="text/javascript" charset="utf-8" src="utils.js"></script>
-        <script type="text/javascript" charset="utf-8" src="legend.js"></script>
         <script type="text/javascript" src="radar.js" charset="utf-8"></script>
+        <script type="text/javascript" src="radar.utils.js" charset="utf-8"></script>
+        <script type="text/javascript" src="radars/radarData.js" charset="utf-8"></script>
+        <script type="text/javascript" src="radar.view.js" charset="utf-8"></script>
+        <script type="text/javascript" src="radar.legend.js" charset="utf-8"></script>
+        <script>
+    	   $(function () { radar.init($(window).width(), $(window).width()); });
+        </script>
     </head>
-<body onload="init($(window).width() - 350, $(window).width() - 350);">
+<body>
     <h1 id="title"></h1>
     <span id="radar"></span>
     <span id="legend"></span>
