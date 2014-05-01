@@ -15,10 +15,22 @@
 var
   http    = require( 'http'    ),
   express = require( 'express' ),
+  fs      = require( 'fs' ),
 
   app     = express(),
   server  = http.createServer( app );
 // ------------- END MODULE SCOPE VARIABLES ---------------
+
+var sendFile = function(fname, response) {
+    console.log('Trying to read ' + __dirname + '/public/radars/' + fname);
+    
+    fs.readFile( __dirname + '/public/radars/' + fname, function (err, data) {
+      if (err) {
+        throw err; 
+      }
+      response.send(data);
+    });
+};
 
 // ------------- BEGIN SERVER CONFIGURATION ---------------
 app.configure( function () {
@@ -42,42 +54,40 @@ app.configure( 'production', function () {
 
 // all configurations below are for routes
 app.get( '/', function ( request, response ) {
-  response.redirect( '/spa.html' );
+  response.redirect( '/radar.html' );
 });
 
-app.all( '/user/*?', function ( request, response, next ) {
+app.all( '/radars/*?', function ( request, response, next ) {
   response.contentType( 'json' );
   next();
 });
 
-app.get( '/user/list', function ( request, response ) {
-  response.send({ title: 'user list' });
+app.get( '/radars/list', function ( request, response ) {
+  response.send({ title: 'radar list' });
 });
 
-app.post( '/user/create', function ( request, response ) {
-  response.send({ title: 'user created' });
+app.post( '/radars/create', function ( request, response ) {
+  response.send({ title: 'radar created' });
 });
 
-app.get( '/user/read/:id([0-9]+)',
+app.get( '/radars/read/:id',
+  function ( request, response ) {
+    sendFile(request.params.id, response);
+  }
+);
+
+app.post( '/radars/update/:id)',
   function ( request, response ) {
     response.send({
-      title: 'user with id ' + request.params.id + ' found'
+      title: 'radar with id ' + request.params.id + ' updated'
     });
   }
 );
 
-app.post( '/user/update/:id([0-9]+)',
+app.get( '/radars/delete/:id([0-9]+)',
   function ( request, response ) {
     response.send({
-      title: 'user with id ' + request.params.id + ' updated'
-    });
-  }
-);
-
-app.get( '/user/delete/:id([0-9]+)',
-  function ( request, response ) {
-    response.send({
-      title: 'user with id ' + request.params.id + ' deleted'
+      title: 'radar with id ' + request.params.id + ' deleted'
     });
   }
 );

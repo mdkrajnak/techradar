@@ -7,7 +7,7 @@ radar.legend = (function() {
     var init = function() {
 
         // Import names from modules.
-        var sectors = radar.data.sectors;
+        var sectors = radar.data.get();
         var name2abbr = radar.utils.name2abbr;
 
         var legend = $("<ul/>");

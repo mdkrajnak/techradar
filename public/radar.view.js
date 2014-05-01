@@ -8,13 +8,14 @@
 /*global $, console, d3, radar */
 
 radar.view = (function() {
+    
     var init = function(dia) {
 
         // Initialize the title as specified in radarData.js
         $('#title').text(radar.data.title);
 
         // Import names from modules.
-        var sectors = radar.data.sectors;
+        var sectors = radar.data.get();
         var name2abbr = radar.utils.name2abbr;
         var p2c = radar.utils.polar_to_cartesian;
         
@@ -129,6 +130,6 @@ radar.view = (function() {
             .append("title")
             .text(function(d) { return d.name; });
     };
-    
+
     return { init: init };
 }());

@@ -106,5 +106,13 @@ radar.data = (function() {
         }
     ];
     
-    return { title: title, sectors: radar_data };
+    var update = function(data) {
+        radar_data = data;
+    };
+    
+    var get = function () {
+        return radar_data;
+    };
+    
+    return { title: title, get: get, update: update };
 }());
