@@ -1,7 +1,8 @@
+Load/save data.
+
 Clean up draggable icons, mouseover logic.
 Label radar "bands": Hold, Assess, Trial, Adopt.
 Label radar quadrants.
 Variable size dots.
-Load/save data.
 Change dot text centering method to work with Firefox.
 Create/remove items.
