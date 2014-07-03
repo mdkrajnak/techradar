@@ -18,6 +18,7 @@ radar.view = (function() {
         var sectors = radar.data.get();
         var name2abbr = radar.utils.name2abbr;
         var p2c = radar.utils.polar_to_cartesian;
+        var c2p = radar.utils.cartesian_to_polar;
         
         //  Initialize variables used to size and position the graphics.
         //var dia = Math.min(w, h);       // Radar diameter
@@ -47,14 +48,30 @@ radar.view = (function() {
         var dragmove = function(d) {
             if (d.x === undefined) d.x = 0;
             if (d.y === undefined) d.y = 0;
-                d.x += d3.event.dx;
-                d.y += d3.event.dy;
-                d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+            
+            d.x += d3.event.dx;
+            d.y += d3.event.dy;
+            d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+        };
+        
+        var dragend = function(d) {
+            var pt = p2c(d.pc);
+            pt.x = pt.x + d.x;
+            pt.y = pt.y + d.y;
+            d.pc = c2p(pt);
+            $.ajax({
+                url: window.location.origin + '/radars/update/radars.json',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(radar.data.get()),
+                dataType: 'json'
+            });
         };
 
         // Register drag handlers.
         var drag = d3.behavior.drag()
-            .on("drag", dragmove);
+            .on("drag", dragmove)
+            .on("dragend", dragend);
 
         //Create SVG element
         var svg = d3.select("#radar")
@@ -113,10 +130,10 @@ radar.view = (function() {
             .data(function(d) { ptnum = 0; return d.items; })
             .enter()
             .append("g")
-            .attr("class", "dot")
-            .attr("x", 0)
-            .attr("y", 0)
-            .call(drag);
+                .attr("class", "dot")
+                .attr("x", 0)
+                .attr("y", 0)
+                .call(drag);
 
         point.append("circle")
             .attr("cy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel

@@ -25,11 +25,17 @@ radar.utils = (function() {
             .range([-radius, radius]);
     };
     
-    var polar_to_cartesian = function(pt) {  
+    var polar_to_cartesian = function(pt) {
       //radians to degrees, requires the t*pi/180
       var x = pt.r * Math.cos((pt.t*Math.PI/180));
       var y = pt.r * Math.sin((pt.t*Math.PI/180));
       return {x: scale(x), y: -scale(y)};
+    };
+    
+    var cartesian_to_polar = function(pt) {
+        var radius = Math.sqrt(pt.x*pt.x + pt.y*pt.y);
+        var theta = Math.atan2(pt.y, pt.x);
+        return {r: scale.invert(radius), t: theta * (180/Math.PI)};
     };
 
     function cartesian_to_raster(x,y) {
@@ -53,7 +59,8 @@ radar.utils = (function() {
         init: init,
         mkscale: mkscale,
         name2abbr: name2abbr,
-        polar_to_cartesian: polar_to_cartesian
+        polar_to_cartesian: polar_to_cartesian,
+        cartesian_to_polar: cartesian_to_polar
     };
     
 }());

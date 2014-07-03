@@ -76,8 +76,9 @@ app.get( '/radars/read/:id',
   }
 );
 
-app.post( '/radars/update/:id)',
+app.post( '/radars/update/:id',
   function ( request, response ) {
+    console.log(JSON.stringify(request.body, undefined, 4));
     response.send({
       title: 'radar with id ' + request.params.id + ' updated'
     });

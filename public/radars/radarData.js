@@ -44,7 +44,7 @@
 radar.data = (function() {
     
     //This is the title for your window tab, and your Radar
-    var title = "ARC Technology Radar";
+    var title = "WWTP Technology Radar";
 
     //This is the concentic circles that want on your radar (currently not used).
     var radar_arcs = [
@@ -58,54 +58,48 @@ radar.data = (function() {
     var radar_data = [
         { "quadrant": "Techniques",
             "items" : [
-                {"name":"Agile Metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
-                {"name":"Continuous Integration", "pc":{"r":110,"t":120},"movement":"c"},
-                {"name":"Automated V&V Tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
-                {"name":"Fastworks", "pc":{"r":160,"t":150},"movement":"c", "blipSize":140},
-                {"name":"Behavior Driven Development", "pc":{"r":210,"t":140},"movement":"c"}
+                {"name":"Scaled Agile Framework", "pc":{"r":70,"t":135}},
+                {"name":"Fastworks", "pc":{"r":160,"t":145}},
+                {"name":"CoE Tools", "pc":{"r":120,"t":120}},
+                {"name":"Agile DHF", "pc":{"r":230,"t":120}},
+                {"name":"BDD", "pc":{"r":230,"t":150}},
             ]
         },
-        { "quadrant": "Tools",
+        { "quadrant": "Connectivity",
             "items" : [
-                {"name":"Git", "pc":{"r":130,"t":15},"movement":"c", "blipSize":140},
-                {"name":"Perforce", "pc":{"r":130,"t":30},"movement":"c", "blipSize":140},
-                {"name":"Typesafe Activator", "pc":{"r":150,"t":40},"movement":"c"},
-                {"name":"NoSQL", "pc":{"r":170,"t":60},"movement":"c"},
-                {"name":"MongoDB", "pc":{"r":170,"t":80},"movement":"c"},
-                {"name":"Cross Mobile Platforms", "pc":{"r":280,"t":70},"movement":"c"},
-                {"name":"Web IDE", "pc":{"r":280,"t":40},"movement":"c"},
-                {"name":"IPython", "pc":{"r":310,"t":40},"movement":"c"}
+                {"name":"HL7 PCD", "pc":{"r":70,"t":60}},
+                {"name":"Sapphire", "pc":{"r":70,"t":20}},
+                {"name":"DDS", "pc":{"r":130,"t":30}},
+                {"name":"TLS", "pc":{"r":130,"t":50}},
+                {"name":"Predix Net (UMF)", "pc":{"r":140,"t":70}},
+                {"name":"Predix Connect", "pc":{"r":180,"t":55}},
+                {"name":"WS for Devices", "pc":{"r":250,"t":70}},
+                {"name":"HL7 FHIR", "pc":{"r":320,"t":70}},
+                {"name":"MQTT", "pc":{"r":350,"t":40}},
+                {"name":"CoAP", "pc":{"r":350,"t":30}}
             ]
         },
-        { "quadrant": "Platforms & Components",
+        { "quadrant": "Applications",
             "items" : [
-                {"name":"QT", "pc":{"r":100,"t":190},"movement":"c"},
-                {"name":"Predix Apps (OSGi, Play)", "pc":{"r":110,"t":225},"movement":"c", "blipSize":140},
-                {"name":"Predix Net (TLS, DDS)", "pc":{"r":110,"t":245},"movement":"c", "blipSize":140},
-                {"name":"Linux", "pc":{"r":130,"t":200},"movement":"c"},
-                {"name":"Single Page Web Applications", "pc":{"r":140,"t":255},"movement":"c"},
-                {"name":"iOS", "pc":{"r":210,"t":230},"movement":"c"},
-                {"name":"Android", "pc":{"r":210,"t":240},"movement":"c"},
-                {"name":"Software Defined Machines", "pc":{"r":230,"t":205},"movement":"c"},
-                {"name":"Node.js", "pc":{"r":310,"t":235},"movement":"c"},
-                {"name":"IoT Protocols (CoAP, MQTT)", "pc":{"r":350,"t":200},"movement":"c"}
+                {"name":"QT", "pc":{"r":80,"t":200}},
+                {"name":"Predix Core", "pc":{"r":100,"t":230}},
+                {"name":"Predix V", "pc":{"r":120,"t":250}},
+                {"name":"Predix Reader", "pc":{"r":140,"t":210}},
+                {"name":"iOS & Android", "pc":{"r":220,"t":230}},
+                {"name":"Hypervisor", "pc":{"r":220,"t":205}},
+                {"name":"Node.js", "pc":{"r":350,"t":200}}
             ]
         },
-        { "quadrant": "Languages & Frameworks",
+        { "quadrant": "Analytics",
             "items" : [
-                {"name":"HTML 5", "pc":{"r":110,"t":300},"movement":"c"},
-                {"name":"Java Script", "pc":{"r":110,"t":315},"movement":"c"},
-                {"name":"Type Script", "pc":{"r":110,"t":330},"movement":"c"},
-                {"name":"Lua", "pc":{"r":190,"t":320},"movement":"c"},
-                {"name":"Groovy", "pc":{"r":190,"t":340},"movement":"c"},
-                {"name":"C#", "pc":{"r":250,"t":345},"movement":"c"},
-                {"name":"D3.js", "pc":{"r":260,"t":300},"movement":"c"},
-                {"name":"Angular.js", "pc":{"r":260,"t":290},"movement":"c"},
-                {"name":"Scala", "pc":{"r":290,"t":310},"movement":"c"}
+                {"name":"NoSQL", "pc":{"r":230,"t":345}},
+                {"name":"Predix Insight", "pc":{"r":250,"t":325}},
+                {"name":"PRODAPS", "pc":{"r":260,"t":300}},
+                {"name":"Rules Engines", "pc":{"r":260,"t":290}}
             ]
         }
     ];
-    
+
     var update = function(data) {
         radar_data = data;
     };

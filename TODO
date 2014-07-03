@@ -1,8 +1,18 @@
 Load/save data.
 
-Clean up draggable icons, mouseover logic.
+Clean up draggable icons, dragging logic.
+Update legend when item is moved.
+Allow user to customize legend codes for items.
+Save data on drag end.
+Cleanup tooltip/mouseover display.
 Label radar "bands": Hold, Assess, Trial, Adopt.
 Label radar quadrants.
 Variable size dots.
 Change dot text centering method to work with Firefox.
 Create/remove items.
+Need a way to deal with multiple radars.
+Highlight recently updated items.
+Show direction of latest change in/out on radar.
+
+Wrap as a chrome app and use local file read/write for data.
+Need a way to support two different "apps", node and chrome app.
