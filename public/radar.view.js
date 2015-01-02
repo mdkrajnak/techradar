@@ -1,13 +1,16 @@
 /*jslint
   browser: true
+  white: true
+  vars: true
  */
 
 // Turn off "do not define functions in loop"
-/*jslint -W083*/
+/*jshint -W083*/
 
 /*global $, console, d3, radar */
 
 radar.view = (function() {
+    'use strict';
     
     var init = function(dia) {
 
@@ -46,8 +49,8 @@ radar.view = (function() {
 
         // Drag handler.
         var dragmove = function(d) {
-            if (d.x === undefined) d.x = 0;
-            if (d.y === undefined) d.y = 0;
+            if (d.x === undefined) { d.x = 0; }
+            if (d.y === undefined) { d.y = 0; } 
             
             d.x += d3.event.dx;
             d.y += d3.event.dy;
@@ -59,13 +62,14 @@ radar.view = (function() {
             pt.x = pt.x + d.x;
             pt.y = pt.y + d.y;
             d.pc = c2p(pt);
-            $.ajax({
-                url: window.location.origin + '/radars/update/radars.json',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(radar.data.get()),
-                dataType: 'json'
-            });
+            console.log(d.pc);
+//            $.ajax({
+//                url: window.location.origin + '/radars/update/radars.json',
+//                type: 'POST',
+//                contentType: 'application/json',
+//                data: JSON.stringify(radar.data.get()),
+//                dataType: 'json'
+//            });
         };
 
         // Register drag handlers.

@@ -1,9 +1,13 @@
+/*jslint white: true, vars: true */
 // The current legend is single ordered list, which we use to get the correct 1..N numbering for each entry.
 // List placement is controlled by CSS styles.
 // Note there are <p> elements embedded in the list which subset it based on the sectors.
 
-/* global $, radar */
+/*global $, radar */
+
 radar.legend = (function() {
+    'use strict';
+    
     var init = function() {
 
         // Import names from modules.
@@ -11,10 +15,12 @@ radar.legend = (function() {
         var name2abbr = radar.utils.name2abbr;
 
         var legend = $("<ul/>");
+        
+        var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
             legend.append("<p><b>" + quad.quadrant + "</b></p>");
-            $.each(quad.items, function(index, val) {
+            $.each(quad.items.sort(radiusSort), function(index, val) {
                 legend.append("<li>" + name2abbr(val.name) + ": " + val.name + "</li>");
             });
         });

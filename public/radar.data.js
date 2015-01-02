@@ -1,5 +1,4 @@
 // radar data module
-/* global radar */
 
 //This is your raw data
 //
@@ -41,7 +40,10 @@
 //   Tools:           0- 90
 //   Languages:     270-360
 
+/*jslint white: true, vars: true */
+/*global radar, $ */
 radar.data = (function() {
+    'use strict';
     
     //This is the title for your window tab, and your Radar
     var title = "WWTP Technology Radar";
@@ -58,11 +60,11 @@ radar.data = (function() {
     var radar_data = [
         { "quadrant": "Techniques",
             "items" : [
+                {"name":"BDD", "pc":{"r":230,"t":150}},
                 {"name":"Scaled Agile Framework", "pc":{"r":70,"t":135}},
                 {"name":"Fastworks", "pc":{"r":160,"t":145}},
                 {"name":"CoE Tools", "pc":{"r":120,"t":120}},
-                {"name":"Agile DHF", "pc":{"r":230,"t":120}},
-                {"name":"BDD", "pc":{"r":230,"t":150}},
+                {"name":"Agile DHF", "pc":{"r":230,"t":120}}
             ]
         },
         { "quadrant": "Connectivity",
