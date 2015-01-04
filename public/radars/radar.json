@@ -1,7 +1,7 @@
 [
     { "quadrant": "Techniques",
         "items" : [
-            {"name":"Agile Metrics", "pc":{"r":70,"t":135},"movement":"c", "blipSize":140},
+            {"name":"Agile Metrics", "pc":{"r":7,"t":135},"movement":"c", "blipSize":140},
             {"name":"Continuous Integration", "pc":{"r":110,"t":120},"movement":"c"},
             {"name":"Auto DU Unit Tests", "pc":{"r":140,"t":110},"movement":"c", "blipSize":140},
             {"name":"Auto Embedded Unit Tests", "pc":{"r":210,"t":110},"movement":"c", "blipSize":140},

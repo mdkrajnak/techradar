@@ -38,14 +38,14 @@ radar.utils = (function() {
     var cartesian_to_polar = function(pt) {
         var radius = Math.sqrt(pt.x*pt.x + pt.y*pt.y);
         var theta = Math.atan2(pt.y, pt.x);
-        return {r: radius, t: theta * (180/Math.PI)}; //{{r: scale.invert(radius), t: theta * (180/Math.PI)};
-    } /
+        return {r: radius, t: theta * (180/Math.PI{{r: scale.invert(radius), t: theta * (180/Math.PI)};
+    };
 
     function cartesian_to_raster(x,y) {
       var rx = dia/2 + x;
       var ry = dia/2 + y;
       return [rx,ry];
-    }
+    };
 
     function raster_to_cartesian(rx,ry) {
       var x = rx - dia/2;
