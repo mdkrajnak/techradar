@@ -1,58 +1,42 @@
-describe("Player", function() {
-  var player;
-  var song;
+/*jslint white: true, vars: true */
+/*global, radar, d3 */
 
-  beforeEach(function() {
-    player = new Player();
-    song = new Song();
-  });
+describe("utils", function() {
 
-  it("should be able to play a Song", function() {
-    player.play(song);
-    expect(player.currentlyPlayingSong).toEqual(song);
+  describe("polar to xy conversions", function () {
 
-    //demonstrates use of custom matcher
-    expect(player).toBePlaying(song);
-  });
+    it("should convert r:100,t:0 to x:100,y:0", function () {
+      var rt = {r: 100, t: 0};
+      var xy = radar.utils.polar_to_cartesian(rt);
 
-  describe("when song has been paused", function() {
-    beforeEach(function() {
-      player.play(song);
-      player.pause();
+      expect(xy.x).toBeCloseTo(100, 2);
+      expect(xy.y).toBeCloseTo(0, 2);
     });
 
-    it("should indicate that the song is currently paused", function() {
-      expect(player.isPlaying).toBeFalsy();
+    it("should convert r:100,t:90 to x:0,y:100", function () {
+      var rt = {r: 100, t: 90};
+      var xy = radar.utils.polar_to_cartesian(rt);
 
-      // demonstrates use of 'not' with a custom matcher
-      expect(player).not.toBePlaying(song);
+      expect(xy.x).toBeCloseTo(0, 2);
+      expect(xy.y).toBeCloseTo(100, 2);
     });
 
-    it("should be possible to resume", function() {
-      player.resume();
-      expect(player.isPlaying).toBeTruthy();
-      expect(player.currentlyPlayingSong).toEqual(song);
+    it("should convert r:100,t:180 to x:-100,y:0", function () {
+      var rt = {r: 100, t: 180};
+      var xy = radar.utils.polar_to_cartesian(rt);
+
+      expect(xy.x).toBeCloseTo(-100, 2);
+      expect(xy.y).toBeCloseTo(0, 2);
     });
-  });
 
-  // demonstrates use of spies to intercept and test method calls
-  it("tells the current song if the user has made it a favorite", function() {
-    spyOn(song, 'persistFavoriteStatus');
+    it("should convert r:100,t:270 to x:0,y:-100", function () {
+      var rt = {r: 100, t: 270};
+      var xy = radar.utils.polar_to_cartesian(rt);
 
-    player.play(song);
-    player.makeFavorite();
-
-    expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-  });
-
-  //demonstrates use of expected exceptions
-  describe("#resume", function() {
-    it("should throw an exception if song is already playing", function() {
-      player.play(song);
-
-      expect(function() {
-        player.resume();
-      }).toThrowError("song is already playing");
+      expect(xy.x).toBeCloseTo(0, 2);
+      expect(xy.y).toBeCloseTo(-100, 2);
     });
+
   });
+
 });

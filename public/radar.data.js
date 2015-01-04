@@ -102,13 +102,62 @@ radar.data = (function() {
         }
     ];
 
+    // Returns quadrant number of entry based on its theta, -1 if not found.
+    var chooseQuad = function(entry) {
+
+        if (entry.pc.t < 0) return -1;
+
+        if (entry.pc.t <= 90) return 0;
+        if (entry.pc.t <= 180) return 1;
+        if (entry.pc.t <= 270) return 2;
+        if (entry.pc.t <= 360) return 3;
+
+        return -1;
+    };
+
+    // Find index of entry in quadrant by name.
+    var indexOf = function(quad, entry) {
+        for (var nentry = 0; nentry < quad.length; nentry++) {
+            if (quad[nentry].name == entry.name) return nentry;
+        }
+        return -1;
+    };
+
+    // Search each quadrant looking for an entry with the matching name.
+    // Return the quadrant number (not the index in the quadrant).
+    var findQuad = function(entry) {
+        for (var nquad = 0; nquad < radar_data.length; nquad++) {
+            if ( indexOf(radar_data[nquad].items, entry) != -1) {
+                return nquad;
+            }
+        }
+        return -1;
+    };
+
+    // Check the entry's theta to see if it is in the right quadrant, if not move it.
+    var updateEntry = function(entry) {
+        var stored = findQuad(entry);
+        var expected = chooseQuad(entry);
+
+        // Bail if not found or is in the right quadrant.
+        if (stored < 0) return;
+        if (expected < 0) return;
+        if (stored == expected) return;
+
+        // Remove from current quadrant and add to destination quadrant.
+        radar_data[stored].items.splice(indexOf(radar_data[stored].items, entry), 1);
+        radar_data[expected].items.push(entry);
+    };
+
+    // Set the data.
     var update = function(data) {
         radar_data = data;
     };
-    
+
+    // Get the data.
     var get = function () {
         return radar_data;
     };
     
-    return { title: title, get: get, update: update };
+    return { title: title, get: get, update: update, updateEntry: updateEntry };
 }());

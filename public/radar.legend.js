@@ -7,15 +7,13 @@
 
 radar.legend = (function() {
     'use strict';
-    
-    var init = function() {
 
-        // Import names from modules.
-        var sectors = radar.data.get();
-        var name2abbr = radar.utils.name2abbr;
+    // Convience name for util function.
+    var name2abbr = radar.utils.name2abbr;
 
+    var mklegend = function(sectors) {
         var legend = $("<ul/>");
-        
+
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
@@ -25,8 +23,22 @@ radar.legend = (function() {
             });
         });
 
+        return legend;
+    };
+
+    var init = function() {
+        var sectors = radar.data.get();
+        var legend = mklegend(sectors);
+
         legend.appendTo("#legend");
     };
 
-    return { init: init };
+    var update = function() {
+        var sectors = radar.data.get();
+        var legend = mklegend(sectors);
+
+        $('#legend ul').replaceWith(legend);
+    };
+
+    return { init: init, update: update };
 }());

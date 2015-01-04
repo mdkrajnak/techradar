@@ -48,21 +48,27 @@ radar.view = (function() {
         };
 
         // Drag handler.
+        // Store local coordinates in scratch x,y variables.
         var dragmove = function(d) {
             if (d.x === undefined) { d.x = 0; }
-            if (d.y === undefined) { d.y = 0; } 
-            
+            if (d.y === undefined) { d.y = 0; }
+
             d.x += d3.event.dx;
             d.y += d3.event.dy;
+
+            // Update r, theta
+            d.pc = c2p(d3.event);
+
+            // Update position on radar.
             d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+            radar.data.updateEntry(d);
+            radar.legend.update();
         };
         
         var dragend = function(d) {
-            var pt = p2c(d.pc);
-            pt.x = pt.x + d.x;
-            pt.y = pt.y + d.y;
-            d.pc = c2p(pt);
             console.log(d.pc);
+            radar.legend.update();
+            // Save changes.
 //            $.ajax({
 //                url: window.location.origin + '/radars/update/radars.json',
 //                type: 'POST',
