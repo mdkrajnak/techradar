@@ -16,7 +16,7 @@ var radar = (function () {
         console.log('proto: ' + protocol);
 
         if (protocol !== 'file:') {
-            $.getJSON('/radars/read/radar.json', function(data) {
+            $.getJSON('/public/radars/radar.json', function(data) {
                 cb(data);
             });
         }
