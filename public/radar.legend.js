@@ -31,6 +31,18 @@ radar.legend = (function() {
         var legend = mklegend(sectors);
 
         legend.appendTo("#legend");
+
+        // Make the quadrant titles editable when users click on it.
+        $('#legend ul p b').click(function() {
+            this.contentEditable=true
+            $(this).on('keypress blur', function(e) {
+                if(e.keyCode&&e.keyCode==13 || e.type=='blur') {
+                    this.contentEditable=false
+                    return false
+                }
+            });
+            $(this).focus()
+        });
     };
 
     var update = function() {

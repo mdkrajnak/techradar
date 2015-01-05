@@ -17,6 +17,18 @@ radar.view = (function() {
         // Initialize the title as specified in radarData.js
         $('#title').text(radar.data.title);
 
+        // Make the title editable when users click on it.
+        $('#title').click(function() {
+            this.contentEditable=true
+            $(this).on('keypress blur', function(e) {
+                if(e.keyCode&&e.keyCode==13 || e.type=='blur') {
+                    this.contentEditable=false
+                    return false
+                }
+            });
+            $(this).focus()
+        });
+
         // Import names from modules.
         var sectors = radar.data.get();
         var name2abbr = radar.utils.name2abbr;
