@@ -42,29 +42,31 @@ radar.utils = (function() {
         return {r: radius, t: theta * (180/Math.PI)};
     };
 
-    function cartesian_to_raster(x,y) {
+    var cartesian_to_raster = function(x,y) {
       var rx = dia/2 + x;
       var ry = dia/2 + y;
-      return [rx,ry];
+      return {x: rx, y: ry};
     };
 
-    function raster_to_cartesian(rx,ry) {
+    var raster_to_cartesian = function(rx,ry) {
       var x = rx - dia/2;
       var y = ry - dia/2;
-      return [x,y];
+      return {x: x, y: y};
     }
 
-    function polar_to_raster(r,t) {
-      var xy= polar_to_cartesian(r,t);
-      return cartesian_to_raster(xy[0], xy[1]);
+    var polar_to_raster = function(r,t) {
+      var xy = polar_to_cartesian(r,t);
+      return cartesian_to_raster(xy.x, xy.y);
     }
     
     return {
         init: init,
         mkscale: mkscale,
         name2abbr: name2abbr,
-        polar_to_cartesian: polar_to_cartesian,
-        cartesian_to_polar: cartesian_to_polar
+        cartesian_to_polar: cartesian_to_polar,
+        cartestian_to_raster: cartesian_to_raster,
+        raster_to_cartesian: raster_to_cartesian,
+        polar_to_cartesian: polar_to_cartesian
     };
     
 }());

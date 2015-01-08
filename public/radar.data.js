@@ -48,6 +48,9 @@ radar.data = (function() {
     //This is the title for your window tab, and your Radar
     var title = "WWTP Technology Radar";
 
+    // New entries are given a default name of "New Tech " + newTechCounter.
+    var newTechCounter = 1;
+
     //This is the concentic circles that want on your radar (currently not used).
     var radar_arcs = [
                        {'r':100,'name':'Adopt'},
@@ -103,14 +106,14 @@ radar.data = (function() {
     ];
 
     // Returns quadrant number of entry based on its theta, -1 if not found.
-    var chooseQuad = function(entry) {
+    var chooseQuad = function(pc) {
 
-        if (entry.pc.t < 0) return -1;
+        if (pc.t < 0) return -1;
 
-        if (entry.pc.t <= 90) return 0;
-        if (entry.pc.t <= 180) return 1;
-        if (entry.pc.t <= 270) return 2;
-        if (entry.pc.t <= 360) return 3;
+        if (pc.t <= 90) return 0;
+        if (pc.t <= 180) return 1;
+        if (pc.t <= 270) return 2;
+        if (pc.t <= 360) return 3;
 
         return -1;
     };
@@ -137,7 +140,7 @@ radar.data = (function() {
     // Check the entry's theta to see if it is in the right quadrant, if not move it.
     var updateEntry = function(entry) {
         var stored = findQuad(entry);
-        var expected = chooseQuad(entry);
+        var expected = chooseQuad(entry.pc);
 
         // Bail if not found or is in the right quadrant.
         if (stored < 0) return;
@@ -147,6 +150,14 @@ radar.data = (function() {
         // Remove from current quadrant and add to destination quadrant.
         radar_data[stored].items.splice(indexOf(radar_data[stored].items, entry), 1);
         radar_data[expected].items.push(entry);
+    };
+
+    var addEntry = function(pt) {
+        var pc = radar.utils.cartesian_to_polar(radar.utils.raster_to_cartesian(pt.x, pt.y));
+        var nquad = chooseQuad(pc);
+        radar_data[nquad].items.push({"name": "New Tech " + (newTechCounter++), "pc": pc});
+
+        console.log("todo add tech at " + pc.r + ':' + pc.t);
     };
 
     // Set the data.
@@ -159,5 +170,5 @@ radar.data = (function() {
         return radar_data;
     };
     
-    return { title: title, get: get, update: update, updateEntry: updateEntry };
+    return { title: title, get: get, update: update, updateEntry: updateEntry, addEntry: addEntry };
 }());
