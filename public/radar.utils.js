@@ -5,7 +5,6 @@ radar.utils = (function() {
     'use strict';
     
     var scale = d3.scale.linear();
-    var dia = 400;
     
     var mkscale = function(dia) {
         var radius = dia/2;
@@ -16,7 +15,7 @@ radar.utils = (function() {
     };
     
     var init = function(diameter) {
-        dia = diameter;
+        var dia = radar.view.diameter();
         scale = mkscale(dia);
     };
     
@@ -42,16 +41,19 @@ radar.utils = (function() {
         return {r: radius, t: theta * (180/Math.PI)};
     };
 
+    // @todo: Consider making dia an argument.
     var cartesian_to_raster = function(x,y) {
-      var rx = dia/2 + x;
-      var ry = dia/2 + y;
-      return {x: rx, y: ry};
+        var dia = radar.view.diameter();
+        var rx = dia/2 + x;
+        var ry = dia/2 + y;
+        return {x: rx, y: ry};
     };
 
     var raster_to_cartesian = function(rx,ry) {
-      var x = rx - dia/2;
-      var y = ry - dia/2;
-      return {x: x, y: y};
+        var dia = radar.view.diameter();
+        var x = rx - dia/2;
+        var y = ry - dia/2;
+        return {x: x, y: y};
     }
 
     var polar_to_raster = function(r,t) {

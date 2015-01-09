@@ -36,14 +36,8 @@ var radar = (function () {
 
             // Complete initialization only if the document is ready.
             $(function() {
-
-                // Compute a size leaving 350 pixels for the legend and 250px as a minimum size.
-                var height = $(window).width(),
-                    width = $(window).width(),
-                    radarSize = Math.max(250, Math.min(width, height) - 350);
-
-                radar.utils.init(radarSize);
-                radar.view.init(radarSize);
+                radar.utils.init();
+                radar.view.init();
                 radar.legend.init();
             });
         });

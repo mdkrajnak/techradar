@@ -51,7 +51,7 @@ radar.data = (function() {
     // New entries are given a default name of "New Tech " + newTechCounter.
     var newTechCounter = 1;
 
-    //This is the concentic circles that want on your radar (currently not used).
+    //This is the concentric circles that want on your radar (currently not used).
     var radar_arcs = [
                        {'r':100,'name':'Adopt'},
                        {'r':200,'name':'Trial'},
@@ -119,18 +119,18 @@ radar.data = (function() {
     };
 
     // Find index of entry in quadrant by name.
-    var indexOf = function(quad, entry) {
+    var indexOf = function(quad, name) {
         for (var nentry = 0; nentry < quad.length; nentry++) {
-            if (quad[nentry].name == entry.name) return nentry;
+            if (quad[nentry].name == name) return nentry;
         }
         return -1;
     };
 
     // Search each quadrant looking for an entry with the matching name.
     // Return the quadrant number (not the index in the quadrant).
-    var findQuad = function(entry) {
+    var findQuad = function(name) {
         for (var nquad = 0; nquad < radar_data.length; nquad++) {
-            if ( indexOf(radar_data[nquad].items, entry) != -1) {
+            if ( indexOf(radar_data[nquad].items, name) != -1) {
                 return nquad;
             }
         }
@@ -139,7 +139,7 @@ radar.data = (function() {
 
     // Check the entry's theta to see if it is in the right quadrant, if not move it.
     var updateEntry = function(entry) {
-        var stored = findQuad(entry);
+        var stored = findQuad(entry.name);
         var expected = chooseQuad(entry.pc);
 
         // Bail if not found or is in the right quadrant.
@@ -148,16 +148,32 @@ radar.data = (function() {
         if (stored == expected) return;
 
         // Remove from current quadrant and add to destination quadrant.
-        radar_data[stored].items.splice(indexOf(radar_data[stored].items, entry), 1);
+        radar_data[stored].items.splice(indexOf(radar_data[stored].items, entry.name), 1);
         radar_data[expected].items.push(entry);
     };
 
     var addEntry = function(pt) {
-        var pc = radar.utils.cartesian_to_polar(radar.utils.raster_to_cartesian(pt.x, pt.y));
+        var xy = radar.utils.raster_to_cartesian(pt.x, pt.y);
+        var pc = radar.utils.cartesian_to_polar(xy);
+
+        console.log(
+            'addEntry() ' +
+            'scr.x: ' + pt.x + ', scr.y: ' + pt.y +
+            ', xy.x: ' + xy.x + ', xy.y: ' + xy.y +
+            ', pc.r: ' + pc.r + ', pc.t: ' + pc.t);
+
         var nquad = chooseQuad(pc);
         radar_data[nquad].items.push({"name": "New Tech " + (newTechCounter++), "pc": pc});
+    };
 
-        console.log("todo add tech at " + pc.r + ':' + pc.t);
+    var deleteEntry = function(name) {
+        var nquad = findQuad(name);
+        if (nquad < 0) {
+            console.log("Tried to delete '" + name + "', but not found in data.");
+            return;
+        }
+        console.log('delete ' + name);
+        radar_data[nquad].items.splice(indexOf(radar_data[nquad].items, name), 1);
     };
 
     // Set the data.
@@ -170,5 +186,12 @@ radar.data = (function() {
         return radar_data;
     };
     
-    return { title: title, get: get, update: update, updateEntry: updateEntry, addEntry: addEntry };
+    return {
+        title: title,
+        get: get,
+        update: update,
+        updateEntry: updateEntry,
+        addEntry: addEntry,
+        deleteEntry: deleteEntry
+    };
 }());

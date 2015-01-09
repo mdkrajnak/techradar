@@ -48,3 +48,8 @@ path.adopt {
     text-anchor: middle;
     alignment-baseline: central;
 }
+
+ul {
+    list-style-type:none;
+}
+

@@ -9,21 +9,32 @@
 
 /*global $, console, d3, radar */
 
-radar.view = (function() {
+radar.view = function () {
     'use strict';
 
-    var dia;
+    var chooseDiameter = function() {
+        // Compute a size leaving 350 pixels for the legend and 250px as a minimum size.
+        var height = $(window).width();
+        var width = $(window).width();
+        return Math.max(250, Math.min(width, height) - 360);
+    };
 
-    var inittitle = function(text) {
+    var dia = chooseDiameter();
+
+    var diameter = function () {
+        return dia;
+    };
+
+    var inittitle = function (text) {
 
         $('#title').text(text);
 
         // Make the title editable when users click on it.
-        $('#title').click(function() {
-            this.contentEditable=true
-            $(this).on('keypress blur', function(e) {
-                if(e.keyCode&&e.keyCode==13 || e.type=='blur') {
-                    this.contentEditable=false
+        $('#title').click(function () {
+            this.contentEditable = true
+            $(this).on('keypress blur', function (e) {
+                if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
+                    this.contentEditable = false;
                     return false
                 }
             });
@@ -33,26 +44,30 @@ radar.view = (function() {
     };
 
     // Function for creating arc generators for a specific band, pos 0 is the innermost "Adopt" band.
-    // Note the (d,i) at the tail of the call chain, so that we're returing the generated path and not the
-    // generator function.
-    var mkarcfn = function(pos, nsect, dia) {
-        var ad = 2*Math.PI/nsect;    // Angular displacement of one sector.
-        var rd = dia/8;                 // Radial displacement of one band (e.g. "Adopt").
+    // Note the (d,i) at the tail of the call chain, so that we're returning the generated path
+    // and not the generator function.
+    var mkarcfn = function (pos, nsect, dia) {
+        var ad = 2 * Math.PI / nsect;    // Angular displacement of one sector.
+        var rd = dia / 8;                 // Radial displacement of one band (e.g. "Adopt").
 
-        return function(d, i) {
+        return function (d, i) {
             return d3.svg.arc()
-                .innerRadius(rd*(pos-1))
-                .outerRadius(rd*pos)
-                .startAngle(i*ad)
-                .endAngle((i+1)*ad)(d,i);
+                .innerRadius(rd * (pos - 1))
+                .outerRadius(rd * pos)
+                .startAngle(i * ad)
+                .endAngle((i + 1) * ad)(d, i);
         };
     };
 
     // Drag handler.
     // Store local coordinates in scratch x,y variables.
-    var dragmove = function(d) {
-        if (d.x === undefined) { d.x = 0; }
-        if (d.y === undefined) { d.y = 0; }
+    var dragmove = function (d) {
+        if (d.x === undefined) {
+            d.x = 0;
+        }
+        if (d.y === undefined) {
+            d.y = 0;
+        }
 
         d.x += d3.event.dx;
         d.y += d3.event.dy;
@@ -66,7 +81,7 @@ radar.view = (function() {
         radar.legend.update();
     };
 
-    var dragend = function(d) {
+    var dragend = function (d) {
         radar.legend.update();
         // Save changes.
 //            $.ajax({
@@ -78,24 +93,24 @@ radar.view = (function() {
 //            });
     };
 
-    var addEntry = function() {
+    var addEntry = function () {
+        console.log('addEntry() x: ' + d3.event.x + ', y: ' + d3.event.y);
         radar.data.addEntry(d3.event);
         radar.legend.update();
         redraw();
     };
 
-    var drawradar = function(svg, dia, sectors) {
+    var drawradar = function (rdr, dia, sectors) {
 
         var nsect = sectors.length;
 
-
-        // Add group to hold the radar paths.
-        var rdr = svg.append("g")
-            .attr("transform", "translate(" + dia/2 +"," + dia/2 + ")");
-
         // Make an entry selection for all sectors.
-        var paths = rdr.selectAll("path")
-            .data(sectors).enter();
+        var paths = rdr.selectAll("path");
+        paths = paths.data(sectors);
+
+        paths.exit().remove();
+
+        paths = paths.enter();
 
         // Append the outer most band for hold state.
         paths.append("path")
@@ -123,7 +138,7 @@ radar.view = (function() {
     };
 
     // Draw a circle on the radar for each entry in the technologies list.
-    var drawentries = function(svg, dia, sectors) {
+    var drawentries = function (rdr, dia, sectors) {
 
         // Convenience names.
         var p2c = radar.utils.polar_to_cartesian;
@@ -138,12 +153,8 @@ radar.view = (function() {
 
         var ptnum = 0;
 
-        // Note, can we move the transform to the parent <svg> element?
-        var entries = svg.append("g")
-            .attr("transform", "translate(" + dia/2 +"," + dia/2 + ")");
-
         // Make an entry selection for all points.
-        var points = entries.selectAll("g")
+        var points = rdr.selectAll("g")
             .data(sectors)
             .enter()
             .append("g");
@@ -151,7 +162,10 @@ radar.view = (function() {
         // Create one <g> for each point.
         // A point group consists of its symbol and text.
         var point = points.selectAll("g")
-            .data(function(d) { ptnum = 0; return d.items; })
+            .data(function (d) {
+                ptnum = 0;
+                return d.items;
+            })
             .enter()
             .append("g")
             .attr("class", "dot")
@@ -160,31 +174,43 @@ radar.view = (function() {
             .call(drag);
 
         point.append("circle")
-            .attr("cy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel
-            .attr("cx", function (d) { return p2c(d.pc).x; } ) // translate x value
+            .attr("cy", function (d) {
+                return p2c(d.pc).y;
+            }) // translate y value to a pixel
+            .attr("cx", function (d) {
+                return p2c(d.pc).x;
+            }) // translate x value
             .attr("r", rscale(12)); // radius of circle
 
         point.append("text")
-            .attr("dy", function (d) { return p2c(d.pc).y; } ) // translate y value to a pixel
-            .attr("dx", function (d) { return p2c(d.pc).x; } ) // translate x value
-            .text(function(d) { return radar.utils.name2abbr(d.name); } ) // radius of circle
+            .attr("dy", function (d) {
+                return p2c(d.pc).y;
+            }) // translate y value to a pixel
+            .attr("dx", function (d) {
+                return p2c(d.pc).x;
+            }) // translate x value
+            .text(function (d) {
+                return radar.utils.name2abbr(d.name);
+            }) // radius of circle
             .append("title")
-            .text(function(d) { return d.name; });
+            .text(function (d) {
+                return d.name;
+            });
     };
 
-    var render = function(svg, dia) {
+    var render = function (rdr, dia) {
         // Get the radar data.
         var sectors = radar.data.get();
 
         // Render title, radar, and data entries.
         inittitle(radar.data.title);
-        drawradar(svg, dia, sectors);
-        drawentries(svg, dia, sectors);
+        drawradar(rdr, dia, sectors);
+        drawentries(rdr, dia, sectors);
     };
 
-    var init = function(dia) {
+    var init = function () {
 
-        this.diameter = dia;
+        console.log('init() dia: ' + dia);
 
         //Create SVG element
         var svg = d3.select("#radar")
@@ -192,16 +218,31 @@ radar.view = (function() {
             .attr("width", dia)
             .attr("height", dia);
 
-        render(svg, dia);
+        // Add group to hold the radar paths.
+        var rdr = svg.append("g")
+            .attr("transform", "translate(" + dia / 2 + "," + dia / 2 + ")");
+
+        render(rdr, dia);
     };
 
-    var redraw = function() {
+    var redraw = function () {
         // Clear the svg element then call render to recreate.
         // @todo: implement
 
-        var svg = $("svg")
-        //render(svg.empty(), this.diameter);
+        $("svg").remove();
+
+        //Create SVG element
+        var svg = d3.select("#radar")
+            .append("svg")
+            .attr("width", dia)
+            .attr("height", dia);
+
+        // Add group to hold the radar paths.
+        var rdr = svg.append("g")
+            .attr("transform", "translate(" + dia / 2 + "," + dia / 2 + ")");
+
+        render(rdr, dia);
     }
 
-    return { init: init, redraw: redraw };
-}());
+    return {init: init, redraw: redraw, diameter: diameter};
+}();
