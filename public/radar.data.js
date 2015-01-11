@@ -153,14 +153,7 @@ radar.data = (function() {
     };
 
     var addEntry = function(pt) {
-        var xy = radar.utils.raster_to_cartesian(pt.x, pt.y);
-        var pc = radar.utils.cartesian_to_polar(xy);
-
-        console.log(
-            'addEntry() ' +
-            'scr.x: ' + pt.x + ', scr.y: ' + pt.y +
-            ', xy.x: ' + xy.x + ', xy.y: ' + xy.y +
-            ', pc.r: ' + pc.r + ', pc.t: ' + pc.t);
+        var pc = radar.utils.cartesian_to_polar({x: pt.x, y: pt.y});
 
         var nquad = chooseQuad(pc);
         radar_data[nquad].items.push({"name": "New Tech " + (newTechCounter++), "pc": pc});

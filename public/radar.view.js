@@ -94,8 +94,11 @@ radar.view = function () {
     };
 
     var addEntry = function () {
-        console.log('addEntry() x: ' + d3.event.x + ', y: ' + d3.event.y);
-        radar.data.addEntry(d3.event);
+
+        // Use d3.mouse() because d3.event.x, y unreliable in chrome.
+        var coords = d3.mouse(this);
+
+        radar.data.addEntry({x: coords[0], y: coords[1]});
         radar.legend.update();
         redraw();
     };
