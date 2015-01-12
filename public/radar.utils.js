@@ -14,11 +14,25 @@ radar.utils = (function() {
             .range([-radius, radius]);
     };
     
-    var init = function(diameter) {
-        var dia = radar.view.diameter();
-        scale = mkscale(dia);
+    var init = function() {
+        scale = mkscale(radar.view.diameter());
     };
-    
+
+    // Click handler that makes an element editable on click,
+    // and non-editable on exit.
+    var mkEditable = function () {
+        return function () {
+            this.contentEditable = true;
+            $(this).on('keypress blur', function (e) {
+                if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
+                    this.contentEditable = false;
+                    return false
+                }
+            });
+            $(this).focus();
+        }
+    };
+
     var name2abbr = function(s) {
         var parts = s.replace(/\(.*\)/, '').split(/\s+/);
         if (parts.length === 0) {return "Unk"; }
@@ -65,6 +79,7 @@ radar.utils = (function() {
         init: init,
         mkscale: mkscale,
         name2abbr: name2abbr,
+        mkEditable: mkEditable,
         cartesian_to_polar: cartesian_to_polar,
         cartestian_to_raster: cartesian_to_raster,
         raster_to_cartesian: raster_to_cartesian,

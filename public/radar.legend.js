@@ -8,7 +8,7 @@
 radar.legend = (function() {
     'use strict';
 
-    // Convience name for util function.
+    // Convenience name for util function.
     var name2abbr = radar.utils.name2abbr;
 
     var mklegend = function(sectors) {
@@ -17,9 +17,12 @@ radar.legend = (function() {
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
-            legend.append("<p><b>" + quad.quadrant + "</b></p>");
+            legend.append('<p><b class="quad-title">' + quad.quadrant + '</b></p>');
             $.each(quad.items.sort(radiusSort), function(index, val) {
-                legend.append("<li><img class='entry-img' src='bullet-16.png' alt='" + val.name + "'/>" + name2abbr(val.name) + ": " + val.name + "</li>");
+                legend.append(
+                    '<li><img class="entry-img" src="bullet-16.png" alt="' + val.name +
+                    '"/><span class="entry-key">' + name2abbr(val.name) +
+                    '</span>:&nbsp;<span class="entry-txt">' + val.name + "</span></li>");
             });
         });
 
@@ -30,19 +33,36 @@ radar.legend = (function() {
         return string.indexOf(suffix, string.length - suffix.length) != -1;
     };
 
-    var sethandlers = function() {
+    var stripkey = function(text) {
+        var start = text.indexOf(':');
+        if (start < 0) return text;
+        return text.substr(start + 2);
+    };
+
+    // Add event handlers to the legend elements.
+    var setHandlers = function() {
 
         // Make the quadrant titles editable when users click on it.
-        $('#legend ul p b').click(function() {
-            this.contentEditable=true
-            $(this).on('keypress blur', function(e) {
-                if(e.keyCode && e.keyCode == 13 || e.type=='blur') {
-                    this.contentEditable=false
-                    return false
-                }
-            });
-            $(this).focus()
-        });
+        $('.quad-title').click(radar.utils.mkEditable());
+
+        $('.entry-txt').click(radar.utils.mkEditable());//function (e) {
+        //    var $this = $(this);
+        //    $this.text(stripkey($this.text()));
+        //    $this.attr('contentEditable', true);
+        //    $this.on('keypress blur', function (e) {
+        //        if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
+        //            var $this = $(this);
+        //            $this.attr('contentEditable', false);
+        //            var text = $this.text();
+        //            if (text === undefined) return false;
+        //            console.log('text: ' + text);
+        //            $this.text(name2abbr(text) + ': ' + text);
+        //            return false;
+        //        }
+        //    });
+        //    $(this).focus();
+        //    return false;
+        //});
 
         // Rollover and click handlers for the individual entries
         $(".entry-img")
@@ -66,7 +86,7 @@ radar.legend = (function() {
         var legend = mklegend(sectors);
 
         legend.appendTo("#legend");
-        sethandlers();
+        setHandlers();
     };
 
     var update = function() {
@@ -74,7 +94,7 @@ radar.legend = (function() {
         var legend = mklegend(sectors);
 
         $('#legend ul').replaceWith(legend);
-        sethandlers();
+        setHandlers();
     };
 
     return { init: init, update: update };

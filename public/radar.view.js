@@ -12,6 +12,7 @@
 radar.view = function () {
     'use strict';
 
+    // Compute size of radar to draw based on current window size.
     var chooseDiameter = function() {
         // Compute a size leaving 350 pixels for the legend and 250px as a minimum size.
         var height = $(window).width();
@@ -19,28 +20,21 @@ radar.view = function () {
         return Math.max(250, Math.min(width, height) - 360);
     };
 
+    // Radar diameter.
     var dia = chooseDiameter();
 
+    // Get current diameter.
     var diameter = function () {
         return dia;
     };
 
-    var inittitle = function (text) {
+    // Initialize the radar title
+    var initTitle = function (text) {
 
         $('#title').text(text);
 
         // Make the title editable when users click on it.
-        $('#title').click(function () {
-            this.contentEditable = true
-            $(this).on('keypress blur', function (e) {
-                if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
-                    this.contentEditable = false;
-                    return false
-                }
-            });
-            $(this).focus()
-        });
-
+        $('#title').click(radar.utils.mkEditable());
     };
 
     // Function for creating arc generators for a specific band, pos 0 is the innermost "Adopt" band.
@@ -59,9 +53,9 @@ radar.view = function () {
         };
     };
 
-    // Drag handler.
+    // Drag move handler.
     // Store local coordinates in scratch x,y variables.
-    var dragmove = function (d) {
+    var dragMove = function (d) {
         if (d.x === undefined) {
             d.x = 0;
         }
@@ -81,7 +75,9 @@ radar.view = function () {
         radar.legend.update();
     };
 
-    var dragend = function (d) {
+    // Drag end handler.
+    // @todo: consider persisting map state when done.
+    var dragEnd = function (d) {
         radar.legend.update();
         // Save changes.
 //            $.ajax({
@@ -93,6 +89,8 @@ radar.view = function () {
 //            });
     };
 
+    // Add a new technology target to radar.
+    // Updates data and legend then redraw the radar.
     var addEntry = function () {
 
         // Use d3.mouse() because d3.event.x, y unreliable in chrome.
@@ -103,7 +101,8 @@ radar.view = function () {
         redraw();
     };
 
-    var drawradar = function (rdr, dia, sectors) {
+    // Draw the radar given the svg element, radar diameter, and sector data.
+    var drawRadar = function (rdr, dia, sectors) {
 
         var nsect = sectors.length;
 
@@ -140,19 +139,17 @@ radar.view = function () {
             .on("click", addEntry);
     };
 
-    // Draw a circle on the radar for each entry in the technologies list.
-    var drawentries = function (rdr, dia, sectors) {
+    // Draw a target on the radar for each entry in the technologies list.
+    var drawEntries = function (rdr, dia, sectors) {
 
-        // Convenience names.
-        var p2c = radar.utils.polar_to_cartesian;
-
-        // Create a d3 scale based on the displayed radar diameter.
-        var rscale = radar.utils.mkscale(dia);
+        // Compute size of target.
+        var tgtScale = radar.utils.mkscale(dia);
+        var tgtSize = tgtScale(12);
 
         // Register drag handlers.
         var drag = d3.behavior.drag()
-            .on("drag", dragmove)
-            .on("dragend", dragend);
+            .on("drag", dragMove)
+            .on("dragend", dragEnd);
 
         var ptnum = 0;
 
@@ -176,14 +173,17 @@ radar.view = function () {
             .attr("y", 0)
             .call(drag);
 
+        // Append a circle to display target.
+        // Use polar to cartesian to convert data coords to display coords.
+        var p2c = radar.utils.polar_to_cartesian;
         point.append("circle")
             .attr("cy", function (d) {
                 return p2c(d.pc).y;
-            }) // translate y value to a pixel
+            })
             .attr("cx", function (d) {
                 return p2c(d.pc).x;
-            }) // translate x value
-            .attr("r", rscale(12)); // radius of circle
+            })
+            .attr("r", tgtSize);
 
         point.append("text")
             .attr("dy", function (d) {
@@ -201,50 +201,46 @@ radar.view = function () {
             });
     };
 
-    var render = function (rdr, dia) {
+    // Render the radar.
+    var render = function (svg, dia) {
         // Get the radar data.
         var sectors = radar.data.get();
 
+        // Add group to hold the radar paths.
+        var radius = dia / 2;
+        var rdr = svg.append("g")
+            .attr("transform", "translate(" + radius + "," + radius + ")");
+
         // Render title, radar, and data entries.
-        inittitle(radar.data.title);
-        drawradar(rdr, dia, sectors);
-        drawentries(rdr, dia, sectors);
+        initTitle(radar.data.title);
+        drawRadar(rdr, dia, sectors);
+        drawEntries(rdr, dia, sectors);
     };
 
     var init = function () {
 
-        console.log('init() dia: ' + dia);
-
         //Create SVG element
         var svg = d3.select("#radar")
             .append("svg")
             .attr("width", dia)
             .attr("height", dia);
 
-        // Add group to hold the radar paths.
-        var rdr = svg.append("g")
-            .attr("transform", "translate(" + dia / 2 + "," + dia / 2 + ")");
-
-        render(rdr, dia);
+        render(svg, radar.view.diameter());
     };
 
+    // Redraw radar.
+    // Currently completely removes svg element and rebuilds from scratch.
+    // @todo: convert to do incremental update of svg elements using d3 joins?
     var redraw = function () {
-        // Clear the svg element then call render to recreate.
-        // @todo: implement
 
+        // Delete current element and create new one.
         $("svg").remove();
-
-        //Create SVG element
         var svg = d3.select("#radar")
             .append("svg")
             .attr("width", dia)
             .attr("height", dia);
 
-        // Add group to hold the radar paths.
-        var rdr = svg.append("g")
-            .attr("transform", "translate(" + dia / 2 + "," + dia / 2 + ")");
-
-        render(rdr, dia);
+        render(svg, radar.view.diameter());
     }
 
     return {init: init, redraw: redraw, diameter: diameter};
