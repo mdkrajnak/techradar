@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Tech Radar",
+  "version": "1",
+  "icons": {
+    "128": "public/icon_128.png"
+  },
+  "permissions": ["filesystem"],
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "minimum_chrome_version": "28"
+}
