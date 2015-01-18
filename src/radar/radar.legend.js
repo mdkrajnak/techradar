@@ -9,20 +9,30 @@ radar.legend = (function() {
     'use strict';
 
     // Convenience name for util function.
-    var name2abbr = radar.utils.name2abbr;
+    var name2key = radar.utils.name2abbr;
 
     var mklegend = function(sectors) {
-        var legend = $("<ul/>");
+        var legend = $('<ul/>');
 
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
             legend.append('<p><b class="quad-title">' + quad.quadrant + '</b></p>');
             $.each(quad.items.sort(radiusSort), function(index, val) {
-                legend.append(
-                    '<li><img class="entry-img" src="bullet-16.png" alt="' + val.name +
-                    '"/><span class="entry-key">' + name2abbr(val.name) +
-                    '</span>:&nbsp;<span class="entry-txt">' + val.name + "</span></li>");
+                var key = $('<span class="entry-key">').text(name2key(val.name));
+                var txt = $('<span class="entry-txt">').text(val.name);
+                var img = $('<img class="entry-img" src="bullet-16.png">');
+                img.attr('alt', val.name);
+                var li =  $('<li>').append(img).append(key).append(':&nbsp;').append(txt);
+
+                (function(val, img, key, txt) {
+                    txt.change(function() {
+                        val.name = $(this).text();
+                        img.attr('alt', $(this).text());
+                        key.text(name2key($(this).text())) });
+                })(val, img, key, txt);
+
+                legend.append(li);
             });
         });
 
@@ -31,12 +41,6 @@ radar.legend = (function() {
 
     var endsWith = function(string, suffix) {
         return string.indexOf(suffix, string.length - suffix.length) != -1;
-    };
-
-    var stripkey = function(text) {
-        var start = text.indexOf(':');
-        if (start < 0) return text;
-        return text.substr(start + 2);
     };
 
     // Add event handlers to the legend elements.
@@ -67,10 +71,10 @@ radar.legend = (function() {
         // Rollover and click handlers for the individual entries
         $(".entry-img")
             .mouseenter(function() {
-                this.src = 'delete-16.png';
+                $(this).attr('src', 'delete-16.png');
             })
             .mouseleave(function() {
-                this.src = 'bullet-16.png';
+                $(this).attr('src', 'bullet-16.png');
             })
             .click(function() {
                 if (endsWith(this.src, 'delete-16.png')) {

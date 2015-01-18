@@ -22,10 +22,11 @@ radar.utils = (function() {
     // and non-editable on exit.
     var mkEditable = function () {
         return function () {
-            this.contentEditable = true;
+            $(this).attr('contentEditable', true);
             $(this).on('keypress blur', function (e) {
                 if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
-                    this.contentEditable = false;
+                    $(this).attr('contentEditable', true);
+                    $(this).change();
                     return false
                 }
             });
@@ -34,7 +35,7 @@ radar.utils = (function() {
     };
 
     var name2abbr = function(s) {
-        var parts = s.replace(/\(.*\)/, '').split(/\s+/);
+        var parts = s.replace(/\(.*\)/, '').trim().split(/\s+/);
         if (parts.length === 0) {return "Unk"; }
         if (parts.length === 1) { return parts[0].substr(0,3); }
         if (parts.length === 2) { return parts[0].substr(0,1) + parts[1].substr(0,2); }
@@ -68,12 +69,12 @@ radar.utils = (function() {
         var x = rx - dia/2;
         var y = ry - dia/2;
         return {x: x, y: y};
-    }
+    };
 
     var polar_to_raster = function(r,t) {
       var xy = polar_to_cartesian(r,t);
       return cartesian_to_raster(xy.x, xy.y);
-    }
+    };
     
     return {
         init: init,
