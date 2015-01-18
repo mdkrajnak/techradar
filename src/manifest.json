@@ -3,12 +3,12 @@
   "name": "Tech Radar",
   "version": "1",
   "icons": {
-    "128": "public/icon_128.png"
+    "128": "app/icon_128.png"
   },
   "permissions": ["filesystem"],
   "app": {
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["app/background.js"]
     }
   },
   "minimum_chrome_version": "28"
