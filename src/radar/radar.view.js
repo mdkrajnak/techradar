@@ -187,14 +187,17 @@ radar.view = function () {
 
         point.append("text")
             .attr("dy", function (d) {
-                return p2c(d.pc).y;
-            }) // translate y value to a pixel
+                return p2c(d.pc).y;         // translate y value to a pixel
+            })
             .attr("dx", function (d) {
-                return p2c(d.pc).x;
-            }) // translate x value
+                return p2c(d.pc).x;         // translate x value
+            })
             .text(function (d) {
                 return radar.utils.name2abbr(d.name);
-            }) // radius of circle
+            })
+            .attr('id', function(d) {
+                return radar.utils.mkid('trkey-', d.id);
+            })
             .append("title")
             .text(function (d) {
                 return d.name;

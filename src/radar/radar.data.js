@@ -169,6 +169,21 @@ radar.data = (function() {
         radar_data[nquad].items.splice(indexOf(radar_data[nquad].items, name), 1);
     };
 
+    // Set new id values on the specified data set.
+    var setIds = function(data) {
+        var num = 1;
+
+        $.each(data, function(index, quad) {
+            console.log('setIds ' + quad.name);
+            $.each(quad.items, function(index, val) {
+                console.log('setIds ' + val.name);
+                val.id = 'tech-' + (num++);
+            });
+        });
+
+        data;
+    }
+
     // Set the data.
     var update = function(data) {
         radar_data = data;
@@ -182,6 +197,7 @@ radar.data = (function() {
     return {
         title: title,
         get: get,
+        setIds: setIds,
         update: update,
         updateEntry: updateEntry,
         addEntry: addEntry,

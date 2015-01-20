@@ -18,6 +18,20 @@ radar.utils = (function() {
         scale = mkscale(radar.view.diameter());
     };
 
+    // Given a string return the first matching number out of string or '0'.
+    // E.g. if 'tech-7' then '7', if 'tech' then '0'.
+    // Treats hyphens as hyphens, not minus so no negative numbers.
+    var idnum = function(idval) {
+        var m = idval.match(/\d+/);
+        return (m == null ? '0' : m[0]);
+    };
+
+    // Given an id in string + num format replace the current prefix
+    // with the specified one.
+    var mkid = function(prefix, idval) {
+        return prefix + idnum(idval)
+    };
+
     // Click handler that makes an element editable on click,
     // and non-editable on exit.
     var mkEditable = function () {
@@ -79,6 +93,8 @@ radar.utils = (function() {
     return {
         init: init,
         mkscale: mkscale,
+        idnum: idnum,
+        mkid: mkid,
         name2abbr: name2abbr,
         mkEditable: mkEditable,
         cartesian_to_polar: cartesian_to_polar,
