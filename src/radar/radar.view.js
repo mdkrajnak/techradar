@@ -15,9 +15,9 @@ radar.view = function () {
     // Compute size of radar to draw based on current window size.
     var chooseDiameter = function() {
         // Compute a size leaving 350 pixels for the legend and 250px as a minimum size.
-        var height = $(window).width();
-        var width = $(window).width();
-        return Math.max(250, Math.min(width, height) - 360);
+        var height = $(window).height() - 100;
+        var width = $(window).width() - 400;
+        return Math.max(250, Math.min(width, height));
     };
 
     // Radar diameter.
@@ -144,7 +144,7 @@ radar.view = function () {
 
         // Compute size of target.
         var tgtScale = radar.utils.mkscale(dia);
-        var tgtSize = tgtScale(12);
+        var tgtSize = tgtScale(15);
 
         // Register drag handlers.
         var drag = d3.behavior.drag()
@@ -204,6 +204,17 @@ radar.view = function () {
             });
     };
 
+    var update = function(aid, name, value) {
+        var key = '#' + aid;
+        if (name == 'text') {
+            console.log('updating ' + aid + ' / ' + $(key).name + ' ' + name + ' ' + $(key).text() + ' with ' + value)
+            $(key).text(value);
+        }
+        else {
+            $(key).attr(name, value);
+        }
+    };
+
     // Render the radar.
     var render = function (svg, dia) {
         // Get the radar data.
@@ -246,5 +257,5 @@ radar.view = function () {
         render(svg, radar.view.diameter());
     }
 
-    return {init: init, redraw: redraw, diameter: diameter};
+    return {init: init, update: update, redraw: redraw, diameter: diameter};
 }();

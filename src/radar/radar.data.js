@@ -137,6 +137,19 @@ radar.data = (function() {
         return -1;
     };
 
+    // Search each quadrant looking for an entry with the matching name.
+    // Return the quadrant number (not the index in the quadrant).
+    var findById = function(eid) {
+        for (var nquad = 0; nquad < radar_data.length; nquad++) {
+            var items = radar_data[nquad].items;
+            for (var nitem = 0; nitem < items.length; nitem++) {
+                if (items[nitem].id == eid) return items[nitem];
+            }
+        }
+
+        return null;
+    };
+
     // Check the entry's theta to see if it is in the right quadrant, if not move it.
     var updateEntry = function(entry) {
         var stored = findQuad(entry.name);
@@ -152,11 +165,13 @@ radar.data = (function() {
         radar_data[expected].items.push(entry);
     };
 
+    var nextId = 1;
+
     var addEntry = function(pt) {
         var pc = radar.utils.cartesian_to_polar({x: pt.x, y: pt.y});
 
         var nquad = chooseQuad(pc);
-        radar_data[nquad].items.push({"name": "New Tech " + (newTechCounter++), "pc": pc});
+        radar_data[nquad].items.push({name: 'New Tech ' + (newTechCounter++), id: 'tech-' + (nextId++), pc: pc});
     };
 
     var deleteEntry = function(name) {
@@ -169,15 +184,28 @@ radar.data = (function() {
         radar_data[nquad].items.splice(indexOf(radar_data[nquad].items, name), 1);
     };
 
+    var update = function(eid, field, value) {
+        var entry = findById(eid);
+        if (entry == null) return;
+
+        if (entry[field] != undefined) {
+            entry[field] = value;
+        }
+
+        if (field == 'name') {
+            radar.view.update(
+                radar.utils.mkid('trkey-', entry.id),
+                'text',
+                radar.utils.name2abbr(entry.name));
+        }
+    };
+
     // Set new id values on the specified data set.
     var setIds = function(data) {
-        var num = 1;
 
         $.each(data, function(index, quad) {
-            console.log('setIds ' + quad.name);
             $.each(quad.items, function(index, val) {
-                console.log('setIds ' + val.name);
-                val.id = 'tech-' + (num++);
+                val.id = 'tech-' + (nextId++);
             });
         });
 
@@ -185,7 +213,7 @@ radar.data = (function() {
     }
 
     // Set the data.
-    var update = function(data) {
+    var set = function(data) {
         radar_data = data;
     };
 
@@ -198,6 +226,7 @@ radar.data = (function() {
         title: title,
         get: get,
         setIds: setIds,
+        set: set,
         update: update,
         updateEntry: updateEntry,
         addEntry: addEntry,

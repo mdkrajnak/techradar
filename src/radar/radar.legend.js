@@ -28,7 +28,8 @@ radar.legend = (function() {
 
                 (function(val, img, key, txt) {
                     txt.change(function() {
-                        val.name = $(this).text();
+                        //val.name = $(this).text();
+                        radar.data.update(val.id, 'name', $(this).text())
                         img.attr('alt', $(this).text());
                         key.text(name2key($(this).text())) });
                 })(val, img, key, txt);
