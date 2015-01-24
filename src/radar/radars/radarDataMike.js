@@ -108,7 +108,7 @@ var radar_data = [
             {"name":"C#", "pc":{"r":90,"t":355},"movement":"c"},
             {"name":"Javascript", "pc":{"r":90,"t":275},"movement":"c"},
             {"name":"D3.js", "pc":{"r":260,"t":310},"movement":"c"},
-            {"name":"Angular.js", "pc":{"r":260,"t":310},"movement":"c"},
+            {"name":"Angular.js", "pc":{"r":260,"t":310},"movement":"c"}
         ]
     }
 ];

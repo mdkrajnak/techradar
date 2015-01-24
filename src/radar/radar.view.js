@@ -211,7 +211,7 @@ radar.view = function () {
     var update = function(aid, name, value) {
         var key = '#' + aid;
         if (name == 'text') {
-            console.log('updating ' + aid + ' / ' + $(key).name + ' ' + name + ' ' + $(key).text() + ' with ' + value)
+            console.log('updating ' + aid + ' / ' + $(key).name + ' ' + name + ' ' + $(key).text() + ' with ' + value);
             $(key).text(value);
         }
         else {
@@ -260,7 +260,7 @@ radar.view = function () {
             .attr("height", dia);
 
         render(svg, radar.view.diameter());
-    }
+    };
 
     return {init: init, update: update, redraw: redraw, diameter: diameter};
 }();

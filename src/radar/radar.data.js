@@ -224,8 +224,8 @@ radar.data = function () {
             });
         });
 
-        data;
-    }
+        return data;
+    };
 
     // Set the data.
     var set = function (data) {

@@ -13,7 +13,7 @@ radar.legend = (function() {
     var mkid = radar.utils.mkid;
 
     var mklegend = function(sectors) {
-        var legend = $('<ul/>');
+        var legend = $('<ul>');
 
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
@@ -37,7 +37,7 @@ radar.legend = (function() {
                 (function(val, img, key, txt) {
                     txt.change(function() {
                         //val.name = $(this).text();
-                        radar.data.update(val.id, 'name', $(this).text())
+                        radar.data.update(val.id, 'name', $(this).text());
                         img.attr('alt', $(this).text());
                         key.text(name2key($(this).text())) });
                 })(val, img, key, txt);
