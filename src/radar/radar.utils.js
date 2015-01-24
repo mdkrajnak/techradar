@@ -57,10 +57,9 @@ radar.utils = (function() {
     };
     
     var polar_to_cartesian = function(pt) {
-      //radians to degrees, requires the t*pi/180
-      var x = pt.r * Math.cos((pt.t*Math.PI/180));
-      var y = pt.r * Math.sin((pt.t*Math.PI/180));
-      return {x: x, y: y} ; //{x: scale(x), y: -scale(y)};
+        var x = pt.r * Math.cos((pt.t*Math.PI/180));
+        var y = pt.r * Math.sin((pt.t*Math.PI/180));
+        return {x: x, y: y} ; //
     };
     
     var cartesian_to_polar = function(pt) {
@@ -85,9 +84,12 @@ radar.utils = (function() {
         return {x: x, y: y};
     };
 
-    var polar_to_raster = function(r,t) {
-      var xy = polar_to_cartesian(r,t);
-      return cartesian_to_raster(xy.x, xy.y);
+    var polar_to_raster = function(pt) {
+        //radians to degrees, requires the t*pi/180
+        var scale = mkscale(radar.view.diameter());
+        var x = pt.r * Math.cos((pt.t*Math.PI/180));
+        var y = pt.r * Math.sin((pt.t*Math.PI/180));
+        return {x: scale(x), y: scale(y)};
     };
     
     return {
@@ -100,7 +102,8 @@ radar.utils = (function() {
         cartesian_to_polar: cartesian_to_polar,
         cartestian_to_raster: cartesian_to_raster,
         raster_to_cartesian: raster_to_cartesian,
-        polar_to_cartesian: polar_to_cartesian
+        polar_to_cartesian: polar_to_cartesian,
+        polar_to_raster: polar_to_raster
     };
     
 }());

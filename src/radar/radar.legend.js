@@ -18,7 +18,15 @@ radar.legend = (function() {
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
-            legend.append('<p><b class="quad-title">' + quad.quadrant + '</b></p>');
+            var qid = 'qtitle-' + index;
+            var qtitle = $('<b class="quad-title">').attr('id', qid).text(quad.quadrant);
+            (function(ttl, qid) {
+                ttl.change(function() {
+                    radar.data.update(qid, 'qtitle', $(this).text());});
+            })(qtitle, qid);
+
+            legend.append($('<p>').append(qtitle));
+
             $.each(quad.items.sort(radiusSort), function(index, val) {
                 var key = $('<span class="entry-key">').attr('id', mkid('lekey-', val.id)).text(name2key(val.name));
                 var txt = $('<span class="entry-txt">').attr('id', mkid('letxt-', val.id)).text(val.name);
@@ -88,8 +96,8 @@ radar.legend = (function() {
     };
 
     var init = function() {
-        var sectors = radar.data.get();
-        var legend = mklegend(sectors);
+        var data = radar.data.get();
+        var legend = mklegend(data.sectors);
 
         legend.appendTo("#legend");
         setHandlers();

@@ -30,7 +30,7 @@ var radar = (function () {
         // Start to load the data right away.
         // Pass a callback to execute when the load completes.
         loadDefault(function(data) {
-            radar.data.setIds(data);
+            radar.data.setIds(data.sectors);
             radar.data.set(data);
 
             // Complete when the document is ready.

@@ -30,11 +30,15 @@ radar.view = function () {
 
     // Initialize the radar title
     var initTitle = function (text) {
-
-        $('#title').text(text);
+        var rtitle = $('#title');
+        rtitle.text(text);
 
         // Make the title editable when users click on it.
-        $('#title').click(radar.utils.mkEditable());
+        rtitle.click(radar.utils.mkEditable());
+        (function(ttl) {
+            ttl.change(function() {
+                radar.data.update('title-1', 'title', $(this).text());});
+        })(rtitle);
     };
 
     // Function for creating arc generators for a specific band, pos 0 is the innermost "Adopt" band.
@@ -175,22 +179,22 @@ radar.view = function () {
 
         // Append a circle to display target.
         // Use polar to cartesian to convert data coords to display coords.
-        var p2c = radar.utils.polar_to_cartesian;
+        var p2r = radar.utils.polar_to_raster;
         point.append("circle")
             .attr("cy", function (d) {
-                return p2c(d.pc).y;
+                return p2r(d.pc).y;
             })
             .attr("cx", function (d) {
-                return p2c(d.pc).x;
+                return p2r(d.pc).x;
             })
             .attr("r", tgtSize);
 
         point.append("text")
             .attr("dy", function (d) {
-                return p2c(d.pc).y;         // translate y value to a pixel
+                return p2r(d.pc).y;         // translate y value to a pixel
             })
             .attr("dx", function (d) {
-                return p2c(d.pc).x;         // translate x value
+                return p2r(d.pc).x;         // translate x value
             })
             .text(function (d) {
                 return radar.utils.name2abbr(d.name);
@@ -216,9 +220,10 @@ radar.view = function () {
     };
 
     // Render the radar.
-    var render = function (svg, dia) {
+    var render = function(svg, dia) {
         // Get the radar data.
-        var sectors = radar.data.get();
+        var data = radar.data.get();
+        var sectors = data.sectors;
 
         // Add group to hold the radar paths.
         var radius = dia / 2;
@@ -226,7 +231,7 @@ radar.view = function () {
             .attr("transform", "translate(" + radius + "," + radius + ")");
 
         // Render title, radar, and data entries.
-        initTitle(radar.data.title);
+        initTitle(radar.data.title());
         drawRadar(rdr, dia, sectors);
         drawEntries(rdr, dia, sectors);
     };
