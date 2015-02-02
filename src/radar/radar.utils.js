@@ -3,17 +3,17 @@
 
 radar.utils = (function() {
     'use strict';
-    
+
     var scale = d3.scale.linear();
-    
+
     var mkscale = function(dia) {
         var radius = dia/2;
-        
+
         return d3.scale.linear()
             .domain([-400, 400])
             .range([-radius, radius]);
     };
-    
+
     var init = function() {
         scale = mkscale(radar.view.diameter());
     };
@@ -53,15 +53,15 @@ radar.utils = (function() {
         if (parts.length === 0) {return "Unk"; }
         if (parts.length === 1) { return parts[0].substr(0,3); }
         if (parts.length === 2) { return parts[0].substr(0,1) + parts[1].substr(0,2); }
-        return parts[0].substr(0,1) + parts[1].substr(0,1) + parts[2].substr(0,1); 
+        return parts[0].substr(0,1) + parts[1].substr(0,1) + parts[2].substr(0,1);
     };
-    
+
     var polar_to_cartesian = function(pt) {
         var x = pt.r * Math.cos((pt.t*Math.PI/180));
         var y = pt.r * Math.sin((pt.t*Math.PI/180));
         return {x: x, y: y} ; //
     };
-    
+
     var cartesian_to_polar = function(pt) {
         var radius = Math.sqrt(pt.x*pt.x + pt.y*pt.y);
         var theta = Math.atan2(pt.y, pt.x);
@@ -91,7 +91,7 @@ radar.utils = (function() {
         var y = pt.r * Math.sin((pt.t*Math.PI/180));
         return {x: scale(x), y: scale(y)};
     };
-    
+
     return {
         init: init,
         mkscale: mkscale,
@@ -105,6 +105,5 @@ radar.utils = (function() {
         polar_to_cartesian: polar_to_cartesian,
         polar_to_raster: polar_to_raster
     };
-    
-}());
 
+}());

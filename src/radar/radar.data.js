@@ -8,7 +8,7 @@
 //   t = moved
 //   c = stayed put
 //
-// blipSize: 
+// blipSize:
 //  intValue; This is optional, if you omit this property, then your blip will be size 70.
 //            This give you the ability to be able to indicate information by blip size too
 //
@@ -128,26 +128,30 @@ radar.data = function () {
     };
 
     // Find index of entry in quadrant by name.
-    var indexOf = function (quad, name) {
+    var indexOf = function (quad, eid) {
         for (var nentry = 0; nentry < quad.length; nentry++) {
-            if (quad[nentry].name == name) return nentry;
+            if (quad[nentry].id == eid) return nentry;
         }
         return -1;
     };
 
     // Search each quadrant looking for an entry with the matching name.
     // Return the quadrant number (not the index in the quadrant).
-    var findQuad = function (name) {
-        for (var nquad = 0; nquad < radar_data.length; nquad++) {
-            if (indexOf(radar_data.sectors[nquad].items, name) != -1) {
+
+    // Search each quadrant looking for an entry with the matching name.
+    // Return the quadrant number (not the index in the quadrant).
+
+    // @todo refactoring *may* have made this identical to findById, check before deleting.
+    var findQuad = function (eid) {
+        for (var nquad = 0; nquad < radar_data.sectors.length; nquad++) {
+            if (indexOf(radar_data.sectors[nquad].items, eid) != -1) {
                 return nquad;
             }
         }
         return -1;
     };
 
-    // Search each quadrant looking for an entry with the matching name.
-    // Return the quadrant number (not the index in the quadrant).
+    // @todo delete
     var findById = function (eid) {
         for (var nquad = 0; nquad < radar_data.sectors.length; nquad++) {
             var items = radar_data.sectors[nquad].items;
@@ -161,7 +165,7 @@ radar.data = function () {
 
     // Check the entry's theta to see if it is in the right quadrant, if not move it.
     var updateEntry = function (entry) {
-        var stored = findQuad(entry.name);
+        var stored = findQuad(entry.id);
         var expected = chooseQuad(entry.pc);
 
         // Bail if not found or is in the right quadrant.
@@ -170,27 +174,27 @@ radar.data = function () {
         if (stored == expected) return;
 
         // Remove from current quadrant and add to destination quadrant.
-        radar_data.sectors[stored].items.splice(indexOf(radar_data.sectors[stored].items, entry.name), 1);
+        radar_data.sectors[stored].items.splice(indexOf(radar_data.sectors[stored].items, entry.id), 1);
         radar_data.sectors[expected].items.push(entry);
     };
 
     var nextId = 1;
 
     var addEntry = function (pt) {
-        var pc = radar.utils.cartesian_to_polar({x: pt.x, y: pt.y});
+        var pc = radar.utils.cartesian_to_polar(pt);
 
         var nquad = chooseQuad(pc);
-        radar_data[nquad].items.push({name: 'New Tech ' + (newTechCounter++), id: 'tech-' + (nextId++), pc: pc});
+        radar_data.sectors[nquad].items.push({name: 'New Tech', id: 'tech-' + (nextId++), pc: pc});
     };
 
-    var deleteEntry = function (name) {
-        var nquad = findQuad(name);
+    var deleteEntry = function (eid) {
+        var nquad = findQuad(eid);
         if (nquad < 0) {
-            console.log("Tried to delete '" + name + "', but not found in data.");
+            console.log("Tried to delete '" + eid + "', but not found in data.");
             return;
         }
-        console.log('delete ' + name);
-        radar_data.sectors[nquad].items.splice(indexOf(radar_data.sectors[nquad].items, name), 1);
+        console.log('delete ' + eid);
+        radar_data.sectors[nquad].items.splice(indexOf(radar_data.sectors[nquad].items, eid), 1);
     };
 
     var update = function (eid, field, value) {

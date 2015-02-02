@@ -1,3 +1,14 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+table {
+    border-width: 0;
+    padding: 0;
+}
+
 #radar {
     align-content: center;
 }
@@ -51,5 +62,6 @@ path.adopt {
 
 ul {
     list-style-type:none;
+    padding: 0;
 }
 

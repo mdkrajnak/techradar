@@ -99,8 +99,8 @@ radar.view = function () {
 
         // Use d3.mouse() because d3.event.x, y unreliable in chrome.
         var coords = d3.mouse(this);
-
-        radar.data.addEntry({x: coords[0], y: coords[1]});
+        var scale = radar.utils.mkscale(radar.view.diameter());
+        radar.data.addEntry({x: scale.invert(coords[0]), y: scale.invert(coords[1])});
         radar.legend.update();
         redraw();
     };

@@ -13,19 +13,22 @@ radar.legend = (function() {
     var mkid = radar.utils.mkid;
 
     var mklegend = function(sectors) {
-        var legend = $('<ul>');
+        //var legend = $('<ul>');
 
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
-            var qid = 'qtitle-' + index;
-            var qtitle = $('<b class="quad-title">').attr('id', qid).text(quad.quadrant);
+            var qid = '#qtitle-' + index;
+            var qtitle = $(qid).text(quad.quadrant);
             (function(ttl, qid) {
                 ttl.change(function() {
                     radar.data.update(qid, 'qtitle', $(this).text());});
             })(qtitle, qid);
 
-            legend.append($('<p>').append(qtitle));
+            //legend.append($('<p>').append(qtitle));
+            var tid = '#tlist-' + index;
+            var tlist = $(tid);
+            tlist.children().remove();
 
             $.each(quad.items.sort(radiusSort), function(index, val) {
                 var key = $('<span class="entry-key">').attr('id', mkid('lekey-', val.id)).text(name2key(val.name));
@@ -42,11 +45,12 @@ radar.legend = (function() {
                         key.text(name2key($(this).text())) });
                 })(val, img, key, txt);
 
-                legend.append(li);
+                tlist.append(li);
+                //legend.append(li);
             });
         });
 
-        return legend;
+        //return legend;
     };
 
     var endsWith = function(string, suffix) {
@@ -97,17 +101,18 @@ radar.legend = (function() {
 
     var init = function() {
         var data = radar.data.get();
-        var legend = mklegend(data.sectors);
-
-        legend.appendTo("#legend");
+        //var legend = mklegend(data.sectors);
+        //legend.appendTo("#legend");
+        mklegend(data.sectors);
         setHandlers();
     };
 
     var update = function() {
-        var sectors = radar.data.get();
-        var legend = mklegend(sectors);
-
-        $('#legend ul').replaceWith(legend);
+        var data = radar.data.get();
+        //var legend = mklegend(sectors);
+        //
+        //$('#legend ul').replaceWith(legend);
+        mklegend(data.sectors);
         setHandlers();
     };
 
