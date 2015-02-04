@@ -92,7 +92,7 @@ radar.legend = (function() {
             })
             .click(function() {
                 if (endsWith(this.src, 'delete-16.png')) {
-                    radar.data.deleteEntry(this.alt);
+                    radar.data.deleteEntry(radar.utils.mkid('tech-', this.id));
                     radar.legend.update();
                     radar.view.redraw();
                 }

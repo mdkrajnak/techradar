@@ -7,44 +7,60 @@
         <script type="text/javascript" src="../lib/d3-3.4.4/d3.js"></script>
         
         <link rel="stylesheet" type="text/css" href="radar.css">
+        <link rel="stylesheet" type="text/css" href="menu.css">
         
         <script type="text/javascript" src="radar.js" charset="utf-8"></script>
         <script type="text/javascript" src="radar.utils.js" charset="utf-8"></script>
         <script type="text/javascript" src="radar.data.js" charset="utf-8"></script>
         <script type="text/javascript" src="radar.view.js" charset="utf-8"></script>
         <script type="text/javascript" src="radar.legend.js" charset="utf-8"></script>
+        <script type="text/javascript" src="menu.js" charset="utf-8"></script>
         <script>
     	   $(function () { radar.init(); });
         </script>
     </head>
 <body>
-    <h1 id="title"></h1>
-    <table>
-        <tr>
-            <td width="240px">
-                <p><b id="qtitle-2">Quad 3</b></p>
-                <ul id="tlist-2"></ul>
-            </td>
-            <td rowspan="2">
-                <span id="radar"></span>
-            </td>
-            <td width="240px">
-                <p><b id="qtitle-3">Quad 2</b></p>
-                <ul id="tlist-3"></ul>
-            </td>
-        </tr>
-        <tr>
-            <td width="240px">
-                <p><b id="qtitle-1">Quad 4</b></p>
-                <ul id="tlist-1"></ul>
-            </td>
-            <td width="240px">
-                <p><b id="qtitle-0">Quad 1</b></p>
-                <ul id="tlist-0"></ul>
-            </td>
-        </tr>
-    </table>
-
+    <nav class="menu">
+        <ul>
+            <li><img id="close-menu-control" src="menu-close.svg"/></li>
+            <li><a href="#">Open...</a></li>
+            <li><a href="#">Save...</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </nav>
+    
+    <div id="container">
+        <div id="header">
+            <h1 id="title"></h1>
+            <img id="open-menu-control" src="menu-open.svg"/>
+        </div>
+        <br/>
+        <table>
+            <tr>
+                <td width="240px">
+                    <p><b id="qtitle-2">Quad 3</b></p>
+                    <ul id="tlist-2"></ul>
+                </td>
+                <td rowspan="2">
+                    <span id="radar"></span>
+                </td>
+                <td width="240px">
+                    <p><b id="qtitle-3">Quad 2</b></p>
+                    <ul id="tlist-3"></ul>
+                </td>
+            </tr>
+            <tr>
+                <td width="240px">
+                    <p><b id="qtitle-1">Quad 4</b></p>
+                    <ul id="tlist-1"></ul>
+                </td>
+                <td width="240px">
+                    <p><b id="qtitle-0">Quad 1</b></p>
+                    <ul id="tlist-0"></ul>
+                </td>
+            </tr>
+        </table>
+    </div>
 
 </body>
 </html>
