@@ -18,7 +18,7 @@ var radar = (function () {
             cb(radar.data.get());
         }
         else {
-            $.getJSON('radars/radar.json', function(data) {
+            $.getJSON('../radar/radars/radar.json', function(data) {
                 cb(data);
             });
         }

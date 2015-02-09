@@ -3,13 +3,16 @@
   "name": "Tech Radar",
   "version": "1",
   "icons": {
-    "128": "app/icon_128.png"
+    "128": "app/radar-128.png"
   },
-  "permissions": ["filesystem"],
+  "permissions": [
+      {"fileSystem": ["write", "directory"]},
+       "system.display"
+  ],
   "app": {
     "background": {
       "scripts": ["app/background.js"]
     }
   },
-  "minimum_chrome_version": "28"
+  "minimum_chrome_version": "31"
 }

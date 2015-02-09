@@ -1,5 +1,5 @@
 /**
- * Created by doshigatai on 1/24/15.
+ * Implements sliding menu logic.
  */
 
 $(function(){

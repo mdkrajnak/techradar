@@ -33,7 +33,7 @@ radar.legend = (function() {
             $.each(quad.items.sort(radiusSort), function(index, val) {
                 var key = $('<span class="entry-key">').attr('id', mkid('lekey-', val.id)).text(name2key(val.name));
                 var txt = $('<span class="entry-txt">').attr('id', mkid('letxt-', val.id)).text(val.name);
-                var img = $('<img class="entry-img" src="bullet-16.png">').attr('id', mkid('leimg-', val.id));
+                var img = $('<img class="entry-img" src="../radar/bullet-16.png">').attr('id', mkid('leimg-', val.id));
                 img.attr('alt', val.name);
                 var li =  $('<li>').append(img).append(key).append(':&nbsp;').append(txt);
 
@@ -85,10 +85,10 @@ radar.legend = (function() {
         // Rollover and click handlers for the individual entries
         $(".entry-img")
             .mouseenter(function() {
-                $(this).attr('src', 'delete-16.png');
+                $(this).attr('src', '../radar/delete-16.png');
             })
             .mouseleave(function() {
-                $(this).attr('src', 'bullet-16.png');
+                $(this).attr('src', '../radar/bullet-16.png');
             })
             .click(function() {
                 if (endsWith(this.src, 'delete-16.png')) {
