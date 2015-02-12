@@ -13,8 +13,6 @@ radar.legend = (function() {
     var mkid = radar.utils.mkid;
 
     var mklegend = function(sectors) {
-        //var legend = $('<ul>');
-
         var radiusSort = function(a, b) { return a.pc.r - b.pc.r; };
 
         $.each(sectors, function(index, quad) {
@@ -25,7 +23,6 @@ radar.legend = (function() {
                     radar.data.update(qid, 'qtitle', $(this).text());});
             })(qtitle, qid);
 
-            //legend.append($('<p>').append(qtitle));
             var tid = '#tlist-' + index;
             var tlist = $(tid);
             tlist.children().remove();
@@ -39,18 +36,14 @@ radar.legend = (function() {
 
                 (function(val, img, key, txt) {
                     txt.change(function() {
-                        //val.name = $(this).text();
                         radar.data.update(val.id, 'name', $(this).text());
                         img.attr('alt', $(this).text());
                         key.text(name2key($(this).text())) });
                 })(val, img, key, txt);
 
                 tlist.append(li);
-                //legend.append(li);
             });
         });
-
-        //return legend;
     };
 
     var endsWith = function(string, suffix) {

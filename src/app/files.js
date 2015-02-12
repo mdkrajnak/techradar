@@ -11,6 +11,37 @@ $(function(){
       console.log('Error: ' + e.code);
     };
     
+    var readAsText = function(fileEntry, callback) {
+      fileEntry.file(function(file) {
+        var reader = new FileReader();
+
+        reader.onerror = errorHandler;
+        reader.onload = function(e) {
+          callback(e.target.result);
+        };
+
+        reader.readAsText(file);
+      });
+    };
+    
+    var loadFileEntry = function(chosenEntry) {
+      chosenEntry.file(function(file) {
+        readAsText(chosenEntry, function(result) {
+            var data = JSON.parse(result)
+            radar.data.setIds(data.sectors);
+            radar.data.set(data);
+            radar.view.redraw();
+        });
+      });
+    };
+    
+    /* Do file open dialog. */
+    openFile.addEventListener('click', function() {
+        chrome.fileSystem.chooseEntry(
+            {type: 'openFile'},
+            loadFileEntry);
+    });
+    
     var save = function(fileEntry, content) {
         fileEntry.createWriter(function(fileWriter) {
             fileWriter.onwriteend = function(e) {
@@ -25,12 +56,7 @@ $(function(){
           }, errorHandler);
     };
     
-    /* Do file open dialog. */
-    openFile.addEventListener('click', function() {
-        chrome.fileSystem.chooseEntry(
-            {type: 'openFile'},
-            function(entry, entries) { console.log('open file'); });
-    });
+
 
     /* hide active menu if close menu button is clicked */
     saveFile.addEventListener('click', function() {
