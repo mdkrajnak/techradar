@@ -215,7 +215,7 @@ radar.data = function () {
             radar_data.sectors[idnum(eid)].quadrant = value;
         }
         else if (field == 'title') {
-
+            radar_data.title = value;
         }
     };
 

@@ -1,18 +1,24 @@
-Load/save data.
+"auto close" sliding menu after *successful* load/save (help?).
 
-Clean up draggable icons, dragging logic.
-Update legend when item is moved.
-Allow user to customize legend codes for items.
-Save data on drag end.
+Fill in help file.
+
+Export radar to PNG.
+
+Radar files should use '.radar', open/save dialogues should filter for same.
+
+Open dialogue should validate input files.
+
 Cleanup tooltip/mouseover display.
-Label radar "bands": Hold, Assess, Trial, Adopt.
-Label radar quadrants.
-Variable size dots.
-Change dot text centering method to work with Firefox.
-Create/remove items.
-Need a way to deal with multiple radars.
-Highlight recently updated items.
-Show direction of latest change in/out on radar.
 
-Wrap as a chrome app and use local file read/write for data.
-Need a way to support two different "apps", node and chrome app.
+Label radar "bands": Hold, Assess, Trial, Adopt.
+
+Variable size dots.
+
+Need cleaner separation of radar and chrome app components, want to reuse radar elsewhere.
+
+Change dot text centering method to work with Firefox.
+
+Consider using standard navicon/hamburger menu icon.
+
+
+General clean up, formatting commenting, variable and module names in code!

@@ -37,6 +37,7 @@ radar.view = function () {
         rtitle.click(radar.utils.mkEditable());
         (function(ttl) {
             ttl.change(function() {
+                console.log('title changed to ' + $(this).text());
                 radar.data.update('title-1', 'title', $(this).text());});
         })(rtitle);
     };

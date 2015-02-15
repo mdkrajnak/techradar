@@ -39,7 +39,7 @@ radar.utils = (function() {
             $(this).attr('contentEditable', true);
             $(this).on('keypress blur', function (e) {
                 if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
-                    $(this).attr('contentEditable', true);
+                    $(this).attr('contentEditable', false);
                     $(this).change();
                     return false
                 }

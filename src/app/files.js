@@ -6,11 +6,18 @@ $(function(){
 
     var openFile = document.querySelector('#open-file');
     var saveFile = document.querySelector('#save-file');
+    var helpFile = document.querySelector('#open-help');
+
+    helpFile.addEventListener('click', function() {
+        chrome.app.window.create(
+            'radar/help.html',
+            {innerBounds: {width: 430, height: 700}});
+    })
 
     var errorHandler = function(e) {
       console.log('Error: ' + e.code);
     };
-    
+
     var readAsText = function(fileEntry, callback) {
       fileEntry.file(function(file) {
         var reader = new FileReader();
@@ -23,25 +30,26 @@ $(function(){
         reader.readAsText(file);
       });
     };
-    
+
     var loadFileEntry = function(chosenEntry) {
       chosenEntry.file(function(file) {
         readAsText(chosenEntry, function(result) {
             var data = JSON.parse(result)
             radar.data.setIds(data.sectors);
             radar.data.set(data);
+            radar.legend.update();
             radar.view.redraw();
         });
       });
     };
-    
+
     /* Do file open dialog. */
     openFile.addEventListener('click', function() {
         chrome.fileSystem.chooseEntry(
             {type: 'openFile'},
             loadFileEntry);
     });
-    
+
     var save = function(fileEntry, content) {
         fileEntry.createWriter(function(fileWriter) {
             fileWriter.onwriteend = function(e) {
@@ -55,7 +63,7 @@ $(function(){
             fileWriter.write(blob);
           }, errorHandler);
     };
-    
+
 
 
     /* hide active menu if close menu button is clicked */
