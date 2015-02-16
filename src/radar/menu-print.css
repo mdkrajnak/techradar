@@ -1,0 +1,5 @@
+/* Make sure menu is not displayed when printing. */
+.menu
+{
+    display: none;
+}
