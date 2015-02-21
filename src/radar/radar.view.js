@@ -73,7 +73,11 @@ radar.view = function () {
 
         // Update r, theta
         d.pc = radar.utils.cartesian_to_polar(d3.event);
-
+        
+        // Rescale r from screen to normalized length
+        var scale = radar.utils.mkscale(radar.view.diameter());
+        d.pc.r = scale.invert(d.pc.r);
+        
         // Update position on radar.
         d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
         radar.data.updateEntry(d);

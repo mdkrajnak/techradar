@@ -70,7 +70,7 @@ nav.menu li {
 /* slide menu right */
 nav.menu {
     top: 0;
-    width: 300px;
+    width: 200px;
     height: 100%;
 }
 
@@ -81,7 +81,7 @@ nav.menu {
 }
 
 nav.menu {
-    right: -300px;
+    right: -200px;
 }
 
 body.smr-open nav.menu {

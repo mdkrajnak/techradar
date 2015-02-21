@@ -13,6 +13,7 @@ $(function(){
 
     /* slide menu right */
     menuOpen.addEventListener('click', function() {
+        //$('.menu').show();
         body.className = 'smr-open';
         $('#container').append(mask);
     } );
@@ -20,12 +21,14 @@ $(function(){
     /* hide active menu if mask is clicked */
     mask.addEventListener('click', function() {
         body.className = '';
+        //$('.menu').hide();
         $('#container > .mask').remove();
     } );
 
     /* hide active menu if close menu button is clicked */
     menuClose.addEventListener('click', function() {
         body.className = '';
+        //$('.menu').hide();
         $('#container > .mask').remove();
     } );
 

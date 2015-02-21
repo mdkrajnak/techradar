@@ -2,17 +2,26 @@
  * Implements file open/save logic.
  */
 
-$(function(){
+$(function() {
 
     var openFile = document.querySelector('#open-file');
     var saveFile = document.querySelector('#save-file');
+    var printWin = document.querySelector('#print-win');
     var helpFile = document.querySelector('#open-help');
+    
+    printWin.addEventListener('click', function() {
+        document.body.className = '';
+        $('#container > .mask').remove();
+        //$('.menu').hide();
+
+        chrome.app.window.current().contentWindow.print();
+    });
 
     helpFile.addEventListener('click', function() {
         chrome.app.window.create(
             'radar/help.html',
             {innerBounds: {width: 430, height: 700}});
-    })
+    });
 
     var errorHandler = function(e) {
       console.log('Error: ' + e.code);

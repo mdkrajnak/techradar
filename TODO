@@ -1,12 +1,16 @@
+Radial caclculation/sort (?) not working when dragging items.
+
 "auto close" sliding menu after *successful* load/save (help?).
 
 Fill in help file.
 
-Export radar to PNG.
-
 Radar files should use '.radar', open/save dialogues should filter for same.
 
+On start up should load the last file viewed.
+
 Open dialogue should validate input files.
+
+Optimize margins in print mode (landscape).
 
 Cleanup tooltip/mouseover display.
 
