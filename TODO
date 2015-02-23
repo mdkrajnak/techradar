@@ -1,10 +1,8 @@
-Fill in help file.
-
-Radar files should use '.radar', open/save dialogues should filter for same.
-
-On start up should load the last file viewed.
+On exit, warn if current radar is not saved.
 
 Open dialogue should validate input files.
+
+Radar files should use '.radar', open/save dialogues should filter for same.
 
 Optimize margins in print mode (landscape).
 

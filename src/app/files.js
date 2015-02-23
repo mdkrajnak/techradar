@@ -80,7 +80,7 @@ app.files = function() {
         helpFile.addEventListener('click', function() {
             chrome.app.window.create(
                 'radar/help.html',
-                {innerBounds: {width: 430, height: 700}});
+                {innerBounds: {width: 645, height: 700}});
             radar.menu.closeMenu();
         });
 

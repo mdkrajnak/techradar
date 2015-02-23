@@ -1,15 +1,11 @@
-/*jslint
-  browser: true
-  white: true
-  vars: true
- */
+/*jslint browser: true, white: true, vars: true */
 
 // Turn off "do not define functions in loop"
 /*jshint -W083*/
 
-/*global $, console, d3, radar */
+/*global $, d3, radar */
 
-radar.view = function () {
+radar.view = (function () {
     'use strict';
 
     // Compute size of radar to draw based on current window size.
@@ -37,7 +33,6 @@ radar.view = function () {
         rtitle.click(radar.utils.mkEditable());
         (function(ttl) {
             ttl.change(function() {
-                console.log('title changed to ' + $(this).text());
                 radar.data.update('title-1', 'title', $(this).text());});
         })(rtitle);
     };
@@ -208,7 +203,6 @@ radar.view = function () {
     var update = function(aid, name, value) {
         var key = '#' + aid;
         if (name == 'text') {
-            console.log('updating ' + aid + ' / ' + $(key).name + ' ' + name + ' ' + $(key).text() + ' with ' + value);
             $(key).text(value);
         }
         else {
@@ -260,4 +254,4 @@ radar.view = function () {
     };
 
     return {init: init, update: update, redraw: redraw, diameter: diameter};
-}();
+}());

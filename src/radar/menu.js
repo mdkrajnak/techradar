@@ -2,9 +2,10 @@
  * Implements sliding menu logic.
  */
 
-/*global $, console, radar */
+/*jslint browser: true, white: true, vars: true */
+/*global $, radar */
 
-radar.menu = function(){
+radar.menu = (function(){
     'use strict';
 
     var body;
@@ -54,4 +55,4 @@ radar.menu = function(){
     };
     
     return { init: init, openMenu: openMenu, closeMenu: closeMenu, clearMsg: clearMsg, setMsg: setMsg };
-}();
+}());

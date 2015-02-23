@@ -3,26 +3,50 @@
     </head>
     <body>
 
-    <p>The initial view shows a radar and a legend with a list of technologies that appear in the radar.</p>
+        <h1>Start Up</h1>
+        
+        <p>On startup the application will display the last opened or saved radar. 
+        If none, then an empty radar display is shown.</p>
+        
+        <h1>Display</h1>
 
-    <p>An empty radar just shows the list of 4 quadrants.</p>
+        <p>In the center of the window is a 4 quadrent radar display.</p>
+        
+        <p>Adjacent to each quadrent is legend listing the technologies in that quadrent.
+        The legend gives a key, an abbrevated string that identifies the technology,
+        and the technology name. <b>NOTE!</b> The application does not prevent users from
+        entering the same technology name more than once.</p>
 
-    <p>The legend has an abbreviated name that serves as a key and appears on top of the radar blip for that technology on the radar.</p>
+        <p>The entries in the legend are sorted by the distance from the center of the radar.
+        Items at the top are closest to the center.</p>
 
-    <p>Entries in the legend are grouped by quadrant and sorted closest to center to farthest.</p>
+        <p>Across the top of the radar is the radar title and on the right is the open menu
+        double "<<" indicator</p>
+        
+        <h1>Editing</h1>
 
-    <p>Technology names and legend keys are not guaranteed to be unique. Users must edit the names if they want them to be unique.</p>
+        <p>Click anywhere on the radar display to create a new technology entry.</p>
+        
+        <p>New entries are automatically named "New Tech". Click on the name in the legend
+        to edit the technology name. The technology key will be automatically updated.</p>
+        
+        <p>Click directly on the legend title or the radar title to edit the text in place.</p>
+        
+        <p>Click on directly on the technology blip shown on the radar and drag to reposition 
+        the blip. The legend updates as the entry is dragged.</p>
 
-    <p>Click on the title, quadrant name, or technology name to edit it.</p>
+        <h1>Menu</h1>
 
-    <p>Click on an existing target on the radar and drag to relocate it.</p>
-
-    <p>Click anywhere on the radar to create a new technology entry.</p>
-
-    <ul>
-    <li>It will appear with a default name, in the correct place in the legend.</li>
-    <li>The name can be changed by clicking on it in the legend.</li>
-    </ul>
-    
+        <p>Click on the open menu "<<" indicator to slide the menu form the right.
+        Click the "Open...", "Save...", "Print...", or "Help..." menu items to
+        activate the desired actions. <b>NOTE!</b> Currently to get a 1 page print make sure
+        you set the page orientation to "Landscape" and set the page margins to "None".
+        Use the close menu ">>" control to close the menu.</p>
+        
+        <h1>References</h1>
+        
+        <p>Go read Neal Ford's 
+        <a target="_blank" href="http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html">Build Your Own Technology Radar</a> article now.</p>
+        
     </body>
 </html>

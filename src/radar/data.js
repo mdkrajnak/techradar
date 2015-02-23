@@ -24,10 +24,10 @@
 //   Tools:           0- 90
 //   Languages:     270-360
 
-/*jslint white: true, vars: true */
-/*global radar, $ */
+/*jslint browser: true, white: true, vars: true, plusplus: true */
+/*global $, console, radar */
 
-radar.data = function () {
+radar.data = (function () {
     'use strict';
 
     //This is the concentric circles that want on your radar (currently not used).
@@ -104,21 +104,21 @@ radar.data = function () {
 
     // Returns quadrant number of entry based on its theta, -1 if not found.
     var chooseQuad = function (pc) {
+        if (pc.t < 0) { return -1; }
 
-        if (pc.t < 0) return -1;
-
-        if (pc.t <= 90) return 0;
-        if (pc.t <= 180) return 1;
-        if (pc.t <= 270) return 2;
-        if (pc.t <= 360) return 3;
+        if (pc.t <= 90) { return 0; }
+        if (pc.t <= 180) { return 1; }
+        if (pc.t <= 270) { return 2; }
+        if (pc.t <= 360) { return 3; }
 
         return -1;
     };
 
     // Find index of entry in quadrant by name.
     var indexOf = function (quad, eid) {
-        for (var nentry = 0; nentry < quad.length; nentry++) {
-            if (quad[nentry].id == eid) return nentry;
+        var nentry;
+        for (nentry = 0; nentry < quad.length; nentry++) {
+            if (quad[nentry].id == eid) { return nentry; }
         }
         return -1;
     };
@@ -128,7 +128,8 @@ radar.data = function () {
 
     // @todo refactoring *may* have made this identical to findById, check before deleting.
     var findQuad = function (eid) {
-        for (var nquad = 0; nquad < radar_data.sectors.length; nquad++) {
+        var nquad;
+        for (nquad = 0; nquad < radar_data.sectors.length; nquad++) {
             if (indexOf(radar_data.sectors[nquad].items, eid) != -1) {
                 return nquad;
             }
@@ -138,10 +139,14 @@ radar.data = function () {
 
     // @todo delete
     var findById = function (eid) {
-        for (var nquad = 0; nquad < radar_data.sectors.length; nquad++) {
-            var items = radar_data.sectors[nquad].items;
-            for (var nitem = 0; nitem < items.length; nitem++) {
-                if (items[nitem].id == eid) return items[nitem];
+        var nquad;
+        var items;
+        var nitem;
+        
+        for (nquad = 0; nquad < radar_data.sectors.length; nquad++) {
+            items = radar_data.sectors[nquad].items;
+            for (nitem = 0; nitem < items.length; nitem++) {
+                if (items[nitem].id == eid) { return items[nitem]; }
             }
         }
 
@@ -154,9 +159,9 @@ radar.data = function () {
         var expected = chooseQuad(entry.pc);
 
         // Bail if not found or is in the right quadrant.
-        if (stored < 0) return;
-        if (expected < 0) return;
-        if (stored == expected) return;
+        if (stored < 0) { return; }
+        if (expected < 0) { return; }
+        if (stored == expected) { return; }
 
         // Remove from current quadrant and add to destination quadrant.
         radar_data.sectors[stored].items.splice(indexOf(radar_data.sectors[stored].items, entry.id), 1);
@@ -179,7 +184,6 @@ radar.data = function () {
             console.log("Tried to delete '" + eid + "', but not found in data.");
             return;
         }
-        console.log('delete ' + eid);
         radar_data.sectors[nquad].items.splice(indexOf(radar_data.sectors[nquad].items, eid), 1);
     };
 
@@ -188,17 +192,17 @@ radar.data = function () {
 
         if (field == 'name') {
             entry = findById(eid);
-            if (entry == null) return;
+            if (entry === null) { return; }
 
             entry[field] = value;
-
+            
             radar.view.update(
                 radar.utils.mkid('trkey-', entry.id),
                 'text',
                 radar.utils.name2abbr(entry.name));
         }
         else if (field == 'qtitle') {
-            radar_data.sectors[idnum(eid)].quadrant = value;
+            radar_data.sectors[radar.utils.idnum(eid)].quadrant = value;
         }
         else if (field == 'title') {
             radar_data.title = value;
@@ -242,4 +246,4 @@ radar.data = function () {
         deleteEntry: deleteEntry,
         getDefault: getDefault
     };
-}();
+}());
