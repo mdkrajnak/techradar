@@ -88,14 +88,6 @@ radar.view = function () {
     // @todo: consider persisting map state when done.
     var dragEnd = function (d) {
         radar.legend.update();
-        // Save changes.
-//            $.ajax({
-//                url: window.location.origin + '/radars/update/radars.json',
-//                type: 'POST',
-//                contentType: 'application/json',
-//                data: JSON.stringify(radar.data.get()),
-//                dataType: 'json'
-//            });
     };
 
     // Add a new technology target to radar.

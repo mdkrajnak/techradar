@@ -8,16 +8,19 @@
 
         <link rel="stylesheet" type="text/css" href="../radar/radar.css"/>
         <link rel="stylesheet" type="text/css" href="../radar/menu.css"/>
-        <link rel="stylesheet" type="text/css" href="../radar/menu-print.css" media="print"/>
+        <link rel="stylesheet" type="text/css" href="../radar/print.css" media="print"/>
 
         <script type="text/javascript" src="../radar/radar.js" charset="utf-8"></script>
-        <script type="text/javascript" src="../radar/radar.utils.js" charset="utf-8"></script>
-        <script type="text/javascript" src="../radar/radar.data.js" charset="utf-8"></script>
-        <script type="text/javascript" src="../radar/radar.view.js" charset="utf-8"></script>
-        <script type="text/javascript" src="../radar/radar.legend.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../radar/utils.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../radar/data.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../radar/view.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../radar/legend.js" charset="utf-8"></script>
         <script type="text/javascript" src="../radar/menu.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../app/app.js" charset="utf-8"></script>
         <script type="text/javascript" src="../app/files.js" charset="utf-8"></script>
-        <script type="text/javascript" src="main.js" charset="utf-8"></script>
+        
+        <!-- Top level js inititalizer. -->
+        <script type="text/javascript" src="../app/app-init.js" charset="utf-8"></script>
     </head>
 <body>
     <nav class="menu">
@@ -28,6 +31,7 @@
             <li id="print-win">Print...</li>
             <li id="open-help">Help...</li>
         </ul>
+        <p id="nav-msg"></p>
     </nav>
 
     <div id="container">

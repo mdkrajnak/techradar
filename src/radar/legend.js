@@ -55,25 +55,7 @@ radar.legend = (function() {
 
         // Make the quadrant titles editable when users click on it.
         $('.quad-title').click(radar.utils.mkEditable());
-
-        $('.entry-txt').click(radar.utils.mkEditable());//function (e) {
-        //    var $this = $(this);
-        //    $this.text(stripkey($this.text()));
-        //    $this.attr('contentEditable', true);
-        //    $this.on('keypress blur', function (e) {
-        //        if (e.keyCode && e.keyCode == 13 || e.type == 'blur') {
-        //            var $this = $(this);
-        //            $this.attr('contentEditable', false);
-        //            var text = $this.text();
-        //            if (text === undefined) return false;
-        //            console.log('text: ' + text);
-        //            $this.text(name2abbr(text) + ': ' + text);
-        //            return false;
-        //        }
-        //    });
-        //    $(this).focus();
-        //    return false;
-        //});
+        $('.entry-txt').click(radar.utils.mkEditable());
 
         // Rollover and click handlers for the individual entries
         $(".entry-img")
@@ -94,17 +76,14 @@ radar.legend = (function() {
 
     var init = function() {
         var data = radar.data.get();
-        //var legend = mklegend(data.sectors);
-        //legend.appendTo("#legend");
+
         mklegend(data.sectors);
         setHandlers();
     };
 
     var update = function() {
         var data = radar.data.get();
-        //var legend = mklegend(sectors);
-        //
-        //$('#legend ul').replaceWith(legend);
+
         mklegend(data.sectors);
         setHandlers();
     };

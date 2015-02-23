@@ -1,29 +1,13 @@
 // radar data module
 
-//This is your raw data
+// Radar data is stored in 4 sectors.
+// Each sector has a name and a list of items.
+// Each item has a name and pc (polar coordinates) object with r (radius) and t (theta) values.
+// r is normallized to a value of 0..400 where each ring is 100 units wide.
 //
-// Key
-//
-// movement:
-//   t = moved
-//   c = stayed put
-//
-// blipSize:
-//  intValue; This is optional, if you omit this property, then your blip will be size 70.
-//            This give you the ability to be able to indicate information by blip size too
-//
-// url:
-// StringValue : This is optional, If you add it then your blips will be clickable to some URL
-//
-// pc: polar coordinates
-//   r = distance away from origin ("radial coordinate")
-//     - Each level is 100 points away from origin
-//     t = angle of the point from origin ("angular coordinate")
-//     - 0 degrees is due east
-//
-// Coarse-grained sectors
+// Standard sectors
 // - Techniques: elements of a software development process, such as experience design; and ways of structuring software, such micro-services.
-// - Tools: components, such as databases, software development tools, such as versions control systems; or more generic categories of tools, such as the notion of polyglot persistance.
+// - Tools: components, such as databases, software development tools, versions control systems; or more generic categories of tools, such as the notion of polyglot persistance.
 // - Platforms: things that we build software on top of: mobile technologies like Android, virtual platforms like the JVM, or generic kinds of platforms like hybrid clouds
 // - Programming Languages and Frameworks
 //
@@ -42,11 +26,9 @@
 
 /*jslint white: true, vars: true */
 /*global radar, $ */
+
 radar.data = function () {
     'use strict';
-
-    // New entries are given a default name of "New Tech " + newTechCounter.
-    var newTechCounter = 1;
 
     //This is the concentric circles that want on your radar (currently not used).
     var radar_arcs = [
@@ -57,30 +39,20 @@ radar.data = function () {
         // ,{'r':500,'name':'Possible Extra if you want it'}
     ];
 
+    // Default data.
     var radar_data = {
-        "title": "Title",
+        "title": "Technology Radar",
         "sectors": [
             {
                 "quadrant": "Techniques",
                 "items": [
                     {"name": "BDD", "pc": {"r": 230, "t": 150}},
-                    {"name": "Scaled Agile Framework", "pc": {"r": 70, "t": 135}},
-                    {"name": "Fastworks", "pc": {"r": 160, "t": 145}},
-                    {"name": "CoE Tools", "pc": {"r": 120, "t": 120}},
-                    {"name": "Agile DHF", "pc": {"r": 230, "t": 120}}
+                    {"name": "Scaled Agile Framework", "pc": {"r": 70, "t": 135}}
                 ]
             },
             {
                 "quadrant": "Connectivity",
                 "items": [
-                    {"name": "HL7 PCD", "pc": {"r": 70, "t": 60}},
-                    {"name": "Sapphire", "pc": {"r": 70, "t": 20}},
-                    {"name": "DDS", "pc": {"r": 130, "t": 30}},
-                    {"name": "TLS", "pc": {"r": 130, "t": 50}},
-                    {"name": "Predix Net (UMF)", "pc": {"r": 140, "t": 70}},
-                    {"name": "Predix Connect", "pc": {"r": 180, "t": 55}},
-                    {"name": "WS for Devices", "pc": {"r": 250, "t": 70}},
-                    {"name": "HL7 FHIR", "pc": {"r": 320, "t": 70}},
                     {"name": "MQTT", "pc": {"r": 350, "t": 40}},
                     {"name": "CoAP", "pc": {"r": 350, "t": 30}}
                 ]
@@ -88,11 +60,6 @@ radar.data = function () {
             {
                 "quadrant": "Applications",
                 "items": [
-                    {"name": "QT", "pc": {"r": 80, "t": 200}},
-                    {"name": "Predix Core", "pc": {"r": 100, "t": 230}},
-                    {"name": "Predix V", "pc": {"r": 120, "t": 250}},
-                    {"name": "Predix Reader", "pc": {"r": 140, "t": 210}},
-                    {"name": "iOS & Android", "pc": {"r": 220, "t": 230}},
                     {"name": "Hypervisor", "pc": {"r": 220, "t": 205}},
                     {"name": "Node.js", "pc": {"r": 350, "t": 200}}
                 ]
@@ -100,8 +67,6 @@ radar.data = function () {
             {
                 "quadrant": "Analytics",
                 "items": [
-                    {"name": "NoSQL", "pc": {"r": 230, "t": 345}},
-                    {"name": "Predix Insight", "pc": {"r": 250, "t": 325}},
                     {"name": "PRODAPS", "pc": {"r": 260, "t": 300}},
                     {"name": "Rules Engines", "pc": {"r": 260, "t": 290}}
                 ]
@@ -109,7 +74,30 @@ radar.data = function () {
         ]
     };
 
-    //This is the title for your window tab, and your Radar
+        var default_data = {
+        "title": "Technology Radar",
+        "sectors": [
+            {
+                "quadrant": "Techniques",
+                "items": []
+            },
+            {
+                "quadrant": "Platforms",
+                "items": []
+            },
+            {
+                "quadrant": "Tools",
+                "items": []
+            },
+            {
+                "quadrant": "Languages",
+                "items": []
+            }
+        ]
+    };
+
+    
+    // Get the title.
     var title = function () {
         return radar_data.title;
     };
@@ -134,9 +122,6 @@ radar.data = function () {
         }
         return -1;
     };
-
-    // Search each quadrant looking for an entry with the matching name.
-    // Return the quadrant number (not the index in the quadrant).
 
     // Search each quadrant looking for an entry with the matching name.
     // Return the quadrant number (not the index in the quadrant).
@@ -178,6 +163,7 @@ radar.data = function () {
         radar_data.sectors[expected].items.push(entry);
     };
 
+    // Counter for assigning technology entry "id" attributes.
     var nextId = 1;
 
     var addEntry = function (pt) {
@@ -240,6 +226,10 @@ radar.data = function () {
     var get = function () {
         return radar_data;
     };
+    
+    var getDefault = function() {
+        return default_data;
+    };
 
     return {
         title: title,
@@ -249,6 +239,7 @@ radar.data = function () {
         update: update,
         updateEntry: updateEntry,
         addEntry: addEntry,
-        deleteEntry: deleteEntry
+        deleteEntry: deleteEntry,
+        getDefault: getDefault
     };
 }();

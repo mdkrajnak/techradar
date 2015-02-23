@@ -2,34 +2,56 @@
  * Implements sliding menu logic.
  */
 
-$(function(){
+/*global $, console, radar */
 
-    var body = document.body;
-    var mask = document.createElement('div');
-    var menuOpen = document.querySelector('#open-menu-control');
-    var menuClose = document.querySelector('#close-menu-control');
+radar.menu = function(){
+    'use strict';
 
-    mask.className = 'mask';
+    var body;
+    var mask;
 
-    /* slide menu right */
-    menuOpen.addEventListener('click', function() {
-        //$('.menu').show();
+    var clearMsg = function() {
+        $('#nav-msg').text('');
+    };
+
+    var setMsg = function(text) {
+        $('#nav-msg').text(text);
+    };
+    
+    var openMenu = function() {
         body.className = 'smr-open';
         $('#container').append(mask);
-    } );
-
-    /* hide active menu if mask is clicked */
-    mask.addEventListener('click', function() {
+    };
+    
+    var closeMenu = function() {
         body.className = '';
-        //$('.menu').hide();
         $('#container > .mask').remove();
-    } );
+    };
+        
+    var init = function() {
+        body = document.body;
+        mask = document.createElement('div');
+        mask.className = 'mask';
 
-    /* hide active menu if close menu button is clicked */
-    menuClose.addEventListener('click', function() {
-        body.className = '';
-        //$('.menu').hide();
-        $('#container > .mask').remove();
-    } );
+        var menuOpen = document.querySelector('#open-menu-control');
+        var menuClose = document.querySelector('#close-menu-control');
+        
+        /* slide menu right */
+        menuOpen.addEventListener('click', function() {
+            clearMsg();
+            openMenu();
+        } );
 
-});
+        /* hide active menu if mask is clicked */
+        mask.addEventListener('click', function() {
+            closeMenu();
+        } );
+
+        /* hide active menu if close menu button is clicked */
+        menuClose.addEventListener('click', function() {
+            closeMenu();
+        } );
+    };
+    
+    return { init: init, openMenu: openMenu, closeMenu: closeMenu, clearMsg: clearMsg, setMsg: setMsg };
+}();

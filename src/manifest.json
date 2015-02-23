@@ -6,8 +6,9 @@
     "128": "app/radar-128.png"
   },
   "permissions": [
-      {"fileSystem": ["write", "directory"]},
-       "system.display"
+      {"fileSystem": ["write", "retainEntries", "directory"]},
+      "system.display",
+      "storage"
   ],
   "app": {
     "background": {

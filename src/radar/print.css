@@ -1,5 +1,9 @@
 /* Make sure menu is not displayed when printing. */
-.menu
-{
+.menu {
     display: none;
+}
+
+#container {
+    margin-left: 0.5in;
+    margin-right: 0.5in;
 }

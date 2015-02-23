@@ -25,22 +25,31 @@ var radar = (function () {
     };
 
     // Top level app initialization.
-    var init = function () {
+//    var init = function () {
+//        // Start to load the data right away.
+//        // Pass a callback to execute when the load completes.
+//        loadDefault(function(data) {
+//            radar.data.setIds(data.sectors);
+//            radar.data.set(data);
+//
+//            // Complete when the document is ready.
+//            $(function() {
+//                radar.utils.init();
+//                radar.view.init();
+//                radar.legend.init();
+//                radar.menu.init();
+//            });
+//        });
+//    };
 
-        // Start to load the data right away.
-        // Pass a callback to execute when the load completes.
-        loadDefault(function(data) {
-            radar.data.setIds(data.sectors);
-            radar.data.set(data);
-
-            // Complete when the document is ready.
-            $(function() {
-                radar.utils.init();
-                radar.view.init();
-                radar.legend.init();
-            });
+    var init = function() {
+        $(function() {
+            radar.utils.init();
+            radar.view.init();
+            radar.legend.init();
+            radar.menu.init();
         });
     };
-
+    
     return { init: init };
 }());

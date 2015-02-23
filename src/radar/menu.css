@@ -53,6 +53,12 @@ nav.menu li {
     text-align: center;
 }
 
+#nav-msg {
+    text-align: center;
+    font-size: 18px;
+    color: red;
+}
+
 nav.menu li:first-child {
     border-top: none
 }
