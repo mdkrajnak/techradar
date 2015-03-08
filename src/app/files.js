@@ -28,7 +28,9 @@ app.files = function() {
 
     var readFileEntry = function(fileEntry, callback) {
         if (fileEntry === undefined) return;
-        chrome.storage.local.set({lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
+        
+        chrome.storage.local.set(
+            {lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
         
         fileEntry.file(function(file) {
             var reader = new FileReader();
@@ -55,7 +57,8 @@ app.files = function() {
                 fileWriter.truncate(content.length);
                 radar.menu.closeMenu();
                 
-                chrome.storage.local.set({lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
+                chrome.storage.local.set(
+                    {lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
             };
             fileWriter.onerror = function(e) {
               console.log('Write failed: ' + e.toString());

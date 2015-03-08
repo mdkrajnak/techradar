@@ -37,9 +37,10 @@ radar.view = (function () {
         })(rtitle);
     };
 
-    // Function for creating arc generators for a specific band, pos 0 is the innermost "Adopt" band.
-    // Note the (d,i) at the tail of the call chain, so that we're returning the generated path
-    // and not the generator function.
+    // Function for creating arc generators for a specific band.
+    // pos == 0 is the innermost "Adopt" band.
+    // Note the (d,i) at the tail of the call chain, so that we're returning 
+    // the generated path and not the generator function.
     var mkarcfn = function (pos, nsect, dia) {
         var ad = 2 * Math.PI / nsect;    // Angular displacement of one sector.
         var rd = dia / 8;                 // Radial displacement of one band (e.g. "Adopt").
@@ -53,8 +54,9 @@ radar.view = (function () {
         };
     };
 
-    // Drag move handler.
-    // Store local coordinates in scratch x,y variables.
+
+    // Drag start.
+    // Store current translation offsets in x0, y0 and update during drag.
     var dragStart = function(d) {
         var elt = d3.select(this);
         
@@ -68,6 +70,7 @@ radar.view = (function () {
         }
     }
     
+    // Drag move handler.
     var dragMove = function (d) {
         d.x0 += d3.event.dx;
         d.y0 += d3.event.dy;
@@ -87,6 +90,7 @@ radar.view = (function () {
     };
 
     // Drag end handler.
+    // Unset x0, y0 and update display.
     var dragEnd = function (d) {
         d.x0 = undefined;
         d.y0 = undefined;
@@ -213,6 +217,7 @@ radar.view = (function () {
             });
     };
 
+    // Given an entry id and property name, update the value.
     var update = function(aid, name, value) {
         var key = '#' + aid;
         if (name == 'text') {
@@ -240,6 +245,7 @@ radar.view = (function () {
         drawEntries(rdr, dia, sectors);
     };
 
+    // Initialize the module.
     var init = function () {
 
         //Create SVG element
