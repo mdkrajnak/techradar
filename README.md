@@ -2,7 +2,7 @@
 
 Forked from Brett Dargan's tech radar code at: https://github.com/bdargan/techradar.
 
-To understand the Technology Radar concept please read Neal Ford's introduction [Build Your Own Tecnology Radar](http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html)
+To understand the Technology Radar concept please read Neal Ford's introduction [Build Your Own Tecnology Radar](http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html).
 
 This application has been significantly rewritten to function as a standalone Chrome application that allows interactive editing of the radar presentation.  Rendering has been ported to D3.js from Prototvis and as a Chrome application data can be saved and loaded from the local filesystem.
 
@@ -15,3 +15,7 @@ There is no warning to save your work on exit. If you exit without saving your d
 There are no drag boundaries, if you are not careful you can drag a entry to a point where it is not visible.
 
 The application attempts to reload the last saved file on startup. If that file has been deleted the application will freeze up.  To work around this create an empty file with the same name in the same location or reinstall the application.
+
+Printing only produces a reasonable result if you select "landscape" mode and "no margins".
+
+There is no export image option other than printing to PDF.
