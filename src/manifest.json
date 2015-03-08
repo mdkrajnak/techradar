@@ -1,9 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Technology Radar",
-  "version": "1",
-  "default_locale": "en",
-  "description": "An application for developing a technology radar."
+  "version": "1.1",
+  "description": "An application for developing a technology radar.",
   "icons": {
     "128": "app/radar-128.png"
   },
