@@ -55,16 +55,22 @@ radar.view = (function () {
 
     // Drag move handler.
     // Store local coordinates in scratch x,y variables.
+    var dragStart = function(d) {
+        var elt = d3.select(this);
+        
+        if (elt.attr('transform')) {
+            d.x0 = d3.transform(elt.attr('transform')).translate[0];
+            d.y0 = d3.transform(elt.attr('transform')).translate[1];
+        }
+        else {
+            d.x0 = 0;
+            d.y0 = 0;
+        }
+    }
+    
     var dragMove = function (d) {
-        if (d.x === undefined) {
-            d.x = 0;
-        }
-        if (d.y === undefined) {
-            d.y = 0;
-        }
-
-        d.x += d3.event.dx;
-        d.y += d3.event.dy;
+        d.x0 += d3.event.dx;
+        d.y0 += d3.event.dy;
 
         // Update r, theta
         d.pc = radar.utils.cartesian_to_polar(d3.event);
@@ -74,14 +80,17 @@ radar.view = (function () {
         d.pc.r = scale.invert(d.pc.r);
         
         // Update position on radar.
-        d3.select(this).attr("transform", "translate(" + d.x + "," + d.y + ")");
+        d3.select(this).attr("transform", "translate(" + d.x0 + "," + d.y0 + ")");
+        
         radar.data.updateEntry(d);
         radar.legend.update();
     };
 
     // Drag end handler.
-    // @todo: consider persisting map state when done.
     var dragEnd = function (d) {
+        d.x0 = undefined;
+        d.y0 = undefined;
+        
         radar.legend.update();
     };
 
@@ -144,8 +153,9 @@ radar.view = (function () {
 
         // Register drag handlers.
         var drag = d3.behavior.drag()
-            .on("drag", dragMove)
-            .on("dragend", dragEnd);
+            .on('dragstart', dragStart)
+            .on('drag', dragMove)
+            .on('dragend', dragEnd);
 
         var ptnum = 0;
 
@@ -167,6 +177,7 @@ radar.view = (function () {
             .attr("class", "dot")
             .attr("x", 0)
             .attr("y", 0)
+            .attr('transform', 'translate(0,0)')
             .call(drag);
 
         // Append a circle to display target.
@@ -174,10 +185,12 @@ radar.view = (function () {
         var p2r = radar.utils.polar_to_raster;
         point.append("circle")
             .attr("cy", function (d) {
-                return p2r(d.pc).y;
+                d.y = p2r(d.pc).y;
+                return d.y;
             })
             .attr("cx", function (d) {
-                return p2r(d.pc).x;
+                d.x = p2r(d.pc).x;
+                return d.x;
             })
             .attr("r", tgtSize);
 

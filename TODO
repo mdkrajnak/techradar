@@ -2,6 +2,8 @@ On exit, warn if current radar is not saved.
 
 Open dialogue should validate input files.
 
+When previous radar file is deleted, crashes on startup, need to fix.
+
 Radar files should use '.radar', open/save dialogues should filter for same.
 
 Optimize margins in print mode (landscape).
