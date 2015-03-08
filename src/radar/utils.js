@@ -4,7 +4,7 @@
 radar.utils = (function() {
     'use strict';
 
-    var scale = d3.scale.linear();
+    var scale; // = d3.scale.linear();
 
     var mkscale = function(dia) {
         var radius = dia/2;

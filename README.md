@@ -2,7 +2,7 @@
 
 Forked from Brett Dargan's tech radar code at: https://github.com/bdargan/techradar.
 
-To understand the Technology Radar concept please read Neal Ford's introduction [Build Your Own Tecnology Radar](http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html).
+To understand the Technology Radar concept please read Neal Ford's introduction [Build Your Own Technology Radar](http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html).
 
 This application has been significantly rewritten to function as a standalone Chrome application that allows interactive editing of the radar presentation.  Rendering has been ported to D3.js from Prototvis and as a Chrome application data can be saved and loaded from the local filesystem.
 

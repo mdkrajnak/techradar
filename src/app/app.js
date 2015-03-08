@@ -31,21 +31,27 @@ var app = (function() {
     // Try to load the last saved file entry from local storage.
     // If not found use default data.
     var init = function() {
-        chrome.storage.local.get('lastSavedRadarEntry', function(data) {
-            if ((data !== undefined) && (data.lastSavedRadarEntry !== undefined)) {
-                chrome.fileSystem.restoreEntry(data.lastSavedRadarEntry, function(entry) {
-                    if (entry) {
-                        app.files.readFileEntry(entry, completeRead);
-                    }
-                    else {
-                        completeInit(radar.data.getDefault());
-                    }
-                });
-            }
-            else {
-                completeInit(radar.data.getDefault());
-            }
-        });
+        try {
+            chrome.storage.local.get('lastSavedRadarEntry', function(data) {
+                if ((data !== undefined) && (data.lastSavedRadarEntry !== undefined)) {
+                    chrome.fileSystem.restoreEntry(data.lastSavedRadarEntry, function(entry) {
+                        if (entry) {
+                            app.files.readFileEntry(entry, completeRead);
+                        }
+                        else {
+                            completeInit(radar.data.getDefault());
+                        }
+                    });
+                }
+                else {
+                    completeInit(radar.data.getDefault());
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+            completeInit(radar.data.getDefault());
+        }
     };
             
     return { init: init };
