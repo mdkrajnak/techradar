@@ -7,10 +7,14 @@
 app.files = function() {
     'use strict';
 
+    /** Generic handler for IO operations. */
     var errorHandler = function(e) {
         console.log('Error: ' + e.code);
     };
     
+    /**
+     * Given the data file contents as a string, load the data into memory.
+     */
     var loadFileData = function(result) {
         try {
             var data = JSON.parse(result);
@@ -26,6 +30,10 @@ app.files = function() {
         }
     };
 
+    /** 
+     * Read an entry from the file system.
+     * return entry as text
+     */
     var readFileEntry = function(fileEntry, callback) {
         if (fileEntry === undefined) return;
         
@@ -44,30 +52,108 @@ app.files = function() {
       });
     };
 
-    var loadFileEntry = function(chosenEntry) {
-        chosenEntry.file(function(file) {
-            readFileEntry(chosenEntry, loadFileData);
+    /**
+     * Show the open dialog.
+     * lastError.message will be user cancelled if cancelled.
+     */
+    var openFileDialog = function(fname) {
+        chrome.fileSystem.chooseEntry(
+            {type: 'openFile', suggestedName: fname},
+            function(entry) {
+                if ((chrome.runtime.lastError == undefined) && (entry != undefined)) {
+                    entry.file(function(file) {
+                        readFileEntry(entry, loadFileData);
+                    });
+                }
+            });
+    };
+
+    var openFileHandler = function() {
+        chrome.storage.local.get('lastSavedRadarEntry', function(data) {
+            if ((chrome.runtime.lastError == undefined) && (data.lastSavedRadarEntry != undefined)) {
+                chrome.fileSystem.restoreEntry(data.lastSavedRadarEntry, function(entry) {
+                    if ((chrome.runtime.lastError == undefined) && (entry != undefined)) {
+                        chrome.fileSystem.getDisplayPath(entry, function(path) {
+                            if (chrome.runtime.lastError == undefined) {
+                                openFileDialog(path);
+                            }
+                            else {
+                                console.log("Unable to retrieve file path, open using default file name.");
+                                openFileDialog('radar.json');
+                            }
+                        });
+                    }
+                    else {
+                        console.log("Unable to retrieve last saved entry, open using default file name.");
+                        openFileDialog('radar.json');
+                    }
+                });
+            }
+            else {
+                console.log("Unable to retrieve file entry from storage, open using default file name.");
+                openFileDialog('radar.json');
+            }
         });
     };
 
-    var save = function(fileEntry, content) {
+    var saveFileEntry = function(fileEntry, content) {
         fileEntry.createWriter(function(fileWriter) {
-            fileWriter.onwriteend = function(e) {
-                fileWriter.onwriteend = null;
-                fileWriter.truncate(content.length);
-                radar.menu.closeMenu();
-                
-                chrome.storage.local.set(
-                    {lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
-            };
-            fileWriter.onerror = function(e) {
-              console.log('Write failed: ' + e.toString());
-            };
-            var blob = new Blob([content], {'type': 'text/plain'});
-            fileWriter.write(blob);
+            if (chrome.runtime.lastError == undefined) {
+                fileWriter.onwriteend = function(e) {
+                    fileWriter.onwriteend = null;
+                    fileWriter.truncate(content.length);
+                    radar.menu.closeMenu();
+
+                    chrome.storage.local.set(
+                        {lastSavedRadarEntry: chrome.fileSystem.retainEntry(fileEntry)});
+                };
+                fileWriter.onerror = function(e) {
+                  console.log('Write failed: ' + e.toString());
+                };
+                var blob = new Blob([content], {'type': 'text/plain'});
+                fileWriter.write(blob);
+            }
           }, errorHandler);
     };
 
+    /** 
+     * Show the save dialog.
+     * lastError.message will be user cancelled if cancelled.
+     */
+    var saveFileDialog = function(fname) {
+        chrome.fileSystem.chooseEntry(
+            {type: 'saveFile', suggestedName: fname},
+            function(entry) {
+                if (chrome.runtime.lastError == undefined) {
+                    saveFileEntry(entry, JSON.stringify(radar.data.get()));
+                }
+            });
+    };
+    
+    /* Handle clicks on the save menu. */
+    var saveFileHandler = function() {
+        chrome.storage.local.get('lastSavedRadarEntry', function(data) {
+            if ((chrome.runtime.lastError == undefined) && (data.lastSavedRadarEntry != undefined)) {
+                chrome.fileSystem.restoreEntry(data.lastSavedRadarEntry, function(entry) {
+                    chrome.fileSystem.getDisplayPath(entry, function(path) {
+                        if (chrome.runtime.lastError == undefined) {
+                            saveFileDialog(path);
+                        }
+                        else {
+                            console.log("Unable to retrieve file path, open using default file name.");
+                            saveFileDialog('radar.json');
+                        }
+                    });
+                });
+            }
+            else {
+                console.log("Unable to retrieve last saved entry, open using default file name.");
+                saveFileDialog('radar.json');
+            }
+        });
+    };
+    
+    /** Attach event handlers to the menu items in the menu. */
     var init = function () {
         
         var openFile = document.querySelector('#open-file');
@@ -90,19 +176,13 @@ app.files = function() {
         /* Do file open dialog. */
         openFile.addEventListener('click', function() {
             radar.menu.clearMsg();
-            chrome.fileSystem.chooseEntry(
-                {type: 'openFile'},
-                loadFileEntry);
+            openFileHandler();
         });
         
         /* hide active menu if close menu button is clicked */
         saveFile.addEventListener('click', function() {
             radar.menu.clearMsg();
-            chrome.fileSystem.chooseEntry(
-                {type: 'saveFile'},
-                function(entry) {
-                    save(entry, JSON.stringify(radar.data.get()));
-                });
+            saveFileHandler();
         });
     };
     
