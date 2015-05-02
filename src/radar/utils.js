@@ -91,6 +91,21 @@ radar.utils = (function() {
         var y = pt.r * Math.sin((pt.t*Math.PI/180));
         return {x: scale(x), y: scale(y)};
     };
+    
+    /**
+     * UUID generation function found at:
+     * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+     * Its not clear if the author is the OP or someone else.
+     */
+    var generate_uuid = function () {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+        });
+        return uuid;
+    };
 
     return {
         init: init,
@@ -103,7 +118,8 @@ radar.utils = (function() {
         cartestian_to_raster: cartesian_to_raster,
         raster_to_cartesian: raster_to_cartesian,
         polar_to_cartesian: polar_to_cartesian,
-        polar_to_raster: polar_to_raster
+        polar_to_raster: polar_to_raster,
+        generate_uuid: generate_uuid
     };
 
 }());
