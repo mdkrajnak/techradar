@@ -8,6 +8,8 @@ This application has been significantly rewritten to function as a standalone Ch
 
 This is also an experiment in small javascript application architectures. It uses no frameworks other that D3.js and jquery. As a an experiment you may find some rough edges, but I believe you'll find it reasonable useful.
 
+[Available](https://chrome.google.com/webstore/detail/technology-radar/npekphbilknncjihapdjiihffocloobn) as a free app in the Chrome Web Store.
+
 ![Screenshot](https://github.com/mdkrajnak/techradar/blob/master/doc/screenshot1.png)
 
 # Known Issues
